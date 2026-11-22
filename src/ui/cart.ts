@@ -83,7 +83,7 @@ export function order() {
   save();
   toast('Pesanan dicatat & membuka WhatsApp...');
   window.open(
-    wa(`Halo *VibeStage*, saya mau pesan sewa alat event:\n\n*Nama:* ${name}\n*Tanggal Acara:* ${date}\n\n*Daftar Sewa:*\n${lines.join('\n')}\n\n*Total Perkiraan:* ${rp(total)}\n\nApakah alatnya ready di tanggal tersebut?`),
+    wa(`Halo *VOAWSHASIA*, saya mau pesan sewa alat event:\n\n*Nama:* ${name}\n*Tanggal Acara:* ${date}\n\n*Daftar Sewa:*\n${lines.join('\n')}\n\n*Total Perkiraan:* ${rp(total)}\n\nApakah alatnya ready di tanggal tersebut?`),
     '_blank',
   );
 }

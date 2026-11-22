@@ -30,7 +30,7 @@ export function renderShell() {
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 md:h-20">
       <a href="#top" class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-zinc-950 text-xl"><i class="fa-solid fa-bolt"></i></div>
-        <div><span class="font-display font-extrabold text-xl text-white">Vibe<span class="text-amber-400">Stage</span></span>
+        <div><span class="font-display font-extrabold text-xl text-white">VOAW<span class="text-amber-400">SHASIA</span></span>
         <span class="block text-[10px] uppercase tracking-widest text-zinc-400 -mt-1">Production & Rental</span></div>
       </a>
       <nav class="hidden md:flex gap-8 text-sm font-medium text-zinc-300">${NAV.map(([h, l]) => `<a href="#${h}" class="hover:text-amber-400 transition">${l}</a>`).join('')}</nav>
@@ -38,7 +38,7 @@ export function renderShell() {
         <button data-act="cart-open" class="px-3.5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 flex items-center gap-2">
           <i class="fa-solid fa-cart-shopping text-amber-400"></i><span class="hidden sm:inline text-sm font-semibold">Keranjang Sewa</span>
           <span id="cart-badge" class="px-2 py-0.5 text-xs font-extrabold text-zinc-950 bg-amber-400 rounded-full">0</span></button>
-        <a href="${wa('Halo VibeStage, saya mau tanya sewa alat event.')}" target="_blank" class="px-3.5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 text-sm font-bold flex items-center gap-2"><i class="fa-brands fa-whatsapp"></i>Chat WA</a>
+        <a href="${wa('Halo VOAWSHASIA, saya mau tanya sewa alat event.')}" target="_blank" class="px-3.5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 text-sm font-bold flex items-center gap-2"><i class="fa-brands fa-whatsapp"></i>Chat WA</a>
         <button data-act="menu" class="md:hidden p-2.5 rounded-xl bg-zinc-900 border border-zinc-800"><i class="fa-solid fa-bars"></i></button>
       </div>
     </div>
@@ -46,14 +46,14 @@ export function renderShell() {
   </header>
 
   <section id="top" class="relative overflow-hidden hero-radial pt-16 pb-20 md:pt-24 md:pb-28 border-b border-zinc-800/70">
-    <div class="absolute inset-0 -z-10 opacity-20"><img src="${D.FALLBACK['Konser & Musik']}" alt="" class="w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-darkbg via-darkbg/80 to-transparent"></div></div>
+    <div class="absolute inset-0 -z-10 opacity-30"><img src="/hero.jpg" alt="" class="w-full h-full object-cover" style="object-position:center 35%" fetchpriority="high"><div class="absolute inset-0 bg-gradient-to-t from-darkbg via-darkbg/80 to-transparent"></div></div>
     <div class="max-w-4xl mx-auto px-4 text-center flex flex-col items-center">
       <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-400 text-sm font-semibold mb-6"><span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>Sewa Alat Event &amp; Produksi Panggung</div>
       <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.15] mb-6">Bikin Acaramu Meriah dengan <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-300 to-cyan-400">Alat Standar Konser</span></h1>
       <p class="text-lg text-zinc-300 mb-9 max-w-2xl">Sewa sound system, lighting, layar LED, dan panggung lengkap dengan tim teknis berpengalaman. Siap pasang di lokasi.</p>
       <div class="flex flex-col sm:flex-row gap-4 mb-14">
         <a href="#daftar-alat" class="px-8 py-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-extrabold flex items-center justify-center gap-2.5 shadow-lg shadow-amber-500/25"><i class="fa-solid fa-sliders"></i>Pilih Alat Sewa</a>
-        <a href="${wa('Halo VibeStage, saya mau tanya harga sewa alat event.')}" target="_blank" class="px-8 py-4 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-700 font-bold flex items-center justify-center gap-2.5"><i class="fa-brands fa-whatsapp text-emerald-400 text-lg"></i>Tanya Harga via WA</a>
+        <a href="${wa('Halo VOAWSHASIA, saya mau tanya harga sewa alat event.')}" target="_blank" class="px-8 py-4 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-700 font-bold flex items-center justify-center gap-2.5"><i class="fa-brands fa-whatsapp text-emerald-400 text-lg"></i>Tanya Harga via WA</a>
       </div>
       <div class="grid grid-cols-3 gap-4 sm:gap-10 pt-8 border-t border-zinc-800/80 w-full max-w-2xl">
         <div><div class="font-display text-3xl font-extrabold">500+</div><div class="text-sm text-zinc-400 mt-1">Acara Sukses</div></div>
@@ -96,7 +96,7 @@ export function renderShell() {
 
   <section id="cara-sewa" class="py-16 bg-zinc-950/60 border-t border-zinc-800/80 w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12"><span class="text-cyan-400 font-bold text-xs uppercase tracking-widest">Mudah &amp; Cepat</span><h2 class="font-display text-3xl font-extrabold mt-1.5">Cara Sewa Alat di VibeStage</h2></div>
+      <div class="text-center mb-12"><span class="text-cyan-400 font-bold text-xs uppercase tracking-widest">Mudah &amp; Cepat</span><h2 class="font-display text-3xl font-extrabold mt-1.5">Cara Sewa Alat di VOAWSHASIA</h2></div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">${D.STEPS.map(([t, d], i) => `
         <div class="p-6 rounded-2xl bg-darkcard border border-zinc-800 text-center">
           <div class="w-11 h-11 rounded-xl bg-amber-500/15 text-amber-400 font-display font-extrabold text-lg flex items-center justify-center mx-auto mb-4">${i + 1}</div>
@@ -106,7 +106,7 @@ export function renderShell() {
 
   <footer class="bg-zinc-950 border-t border-zinc-800/80 py-12 mt-auto">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div><div class="flex items-center gap-3 mb-4"><div class="w-9 h-9 rounded-xl bg-amber-500 flex items-center justify-center text-zinc-950"><i class="fa-solid fa-bolt"></i></div><span class="font-display font-extrabold text-lg">Vibe<span class="text-amber-400">Stage</span></span></div>
+      <div><div class="flex items-center gap-3 mb-4"><div class="w-9 h-9 rounded-xl bg-amber-500 flex items-center justify-center text-zinc-950"><i class="fa-solid fa-bolt"></i></div><span class="font-display font-extrabold text-lg">VOAW<span class="text-amber-400">SHASIA</span></span></div>
         <p class="text-zinc-400 text-sm leading-relaxed">Penyedia sewa sound system, lighting, layar LED, dan panggung konser terpercaya dengan kru teknis siap siaga.</p></div>
       <div><h4 class="font-bold text-sm uppercase tracking-wider mb-4">Alamat Gudang</h4>
         <ul class="space-y-2.5 text-sm text-zinc-400">
@@ -118,7 +118,7 @@ export function renderShell() {
         <button data-act="cart-open" class="px-3 py-1.5 rounded-lg bg-zinc-900 text-zinc-300 text-xs hover:text-amber-400">Keranjang Sewa</button></div></div>
     </div>
     <div class="max-w-7xl mx-auto px-4 mt-10 pt-6 border-t border-zinc-900 text-center text-xs text-zinc-500">
-      <span id="secret" class="select-none cursor-default">&copy; 2026 VibeStage Production &amp; Rental. Hak Cipta Dilindungi.</span></div>
+      <span id="secret" class="select-none cursor-default">&copy; 2026 VOAWSHASIA Production &amp; Rental. Hak Cipta Dilindungi.</span></div>
   </footer>`;
 }
 
@@ -190,7 +190,7 @@ export function portDetail(id: string) {
       <div class="pt-4 border-t border-zinc-800"><h4 class="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-3">Alat yang Dipakai di Acara Ini:</h4>
         <div class="flex flex-wrap gap-2">${p.gearUsed.map((g) => `<span class="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-700 text-xs"><i class="fa-solid fa-check text-amber-400 text-[10px] mr-1.5"></i>${esc(g)}</span>`).join('')}</div></div>
       <div class="pt-4 flex gap-3">
-        <a href="${wa('Halo VibeStage, saya mau sewa paket alat serupa acara: ' + p.title)}" target="_blank" class="flex-1 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-extrabold text-sm text-center"><i class="fa-brands fa-whatsapp mr-1.5"></i>Sewa Paket Serupa</a>
+        <a href="${wa('Halo VOAWSHASIA, saya mau sewa paket alat serupa acara: ' + p.title)}" target="_blank" class="flex-1 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-extrabold text-sm text-center"><i class="fa-brands fa-whatsapp mr-1.5"></i>Sewa Paket Serupa</a>
         <button data-act="close" class="py-3.5 px-5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 text-sm font-bold">Tutup</button></div>
     </div></div>`);
 }

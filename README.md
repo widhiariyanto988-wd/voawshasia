@@ -1,4 +1,4 @@
-# VibeStage — Production & Rental
+# VOAWSHASIA — Production & Rental
 
 Landing page sewa alat event dan produksi panggung berbasis **Vite + TypeScript** (tanpa framework UI). Antarmuka memakai Tailwind CSS, Font Awesome, dan Google Fonts yang dimuat lewat CDN.
 
