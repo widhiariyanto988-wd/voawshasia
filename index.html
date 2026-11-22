@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="id" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VibeStage Production & Rental | Sewa Alat Event & Produksi Panggung</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: {
+      fontFamily: { sans: ['Inter','sans-serif'], display: ['Plus Jakarta Sans','sans-serif'] },
+      colors: { darkbg: '#0A0B0E', darkcard: '#13151B', darkborder: '#232732' } } } }
+  </script>
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body class="bg-darkbg text-zinc-100 font-sans antialiased selection:bg-amber-500 selection:text-zinc-950">
+  <div id="toast" class="fixed bottom-5 right-5 z-[100] flex flex-col gap-2 pointer-events-none"></div>
+  <div id="public" class="min-h-screen flex flex-col"></div>
+  <div id="admin" class="hidden min-h-screen bg-zinc-950 flex flex-col lg:flex-row"></div>
+  <div id="modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4" data-act="backdrop"></div>
+  <div id="drawer" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex justify-end" data-act="backdrop"></div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
