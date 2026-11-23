@@ -116,7 +116,7 @@ export function renderShell() {
         <ul class="space-y-2.5 text-sm text-zinc-400">
           <li><i class="fa-solid fa-location-dot text-amber-400 mr-2"></i>Jl. Industri Raya No. 88, Jakarta Selatan</li>
           <li><i class="fa-solid fa-clock text-amber-400 mr-2"></i>Buka Setiap Hari: 08.00 – 22.00 WIB</li>
-          <li><i class="fa-brands fa-whatsapp text-emerald-400 mr-2"></i>+62 812-3456-7890</li></ul></div>
+          ${D.WA_LIST.map(([label, number]) => `<li><a href="${wa('Halo VOAWSHASIA, saya ingin menghubungi Anda.', number)}" target="_blank" class="hover:text-emerald-400"><i class="fa-brands fa-whatsapp text-emerald-400 mr-2"></i>${label}</a></li>`).join('')}</ul></div>
       <div><h4 class="font-bold text-sm uppercase tracking-wider mb-4">Navigasi Cepat</h4><div class="flex flex-wrap gap-2">
         ${NAV.slice(0, 3).map(([h, l]) => `<a href="#${h}" class="px-3 py-1.5 rounded-lg bg-zinc-900 text-zinc-300 text-xs hover:text-amber-400">${l}</a>`).join('')}
         <button data-act="cart-open" class="px-3 py-1.5 rounded-lg bg-zinc-900 text-zinc-300 text-xs hover:text-amber-400">Keranjang Sewa</button></div></div>

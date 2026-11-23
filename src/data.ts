@@ -1,6 +1,14 @@
 import type { Equipment, Portfolio, Inquiry, Pkg } from './types';
 
-export const WA = '6281234567890';
+/** WA utama untuk semua tombol chat & pesanan: 0852-9249-6845 */
+export const WA = '6285292496845';
+/** WA cadangan yang ditampilkan di footer: 0881-2814-855 */
+export const WA_ALT = '628812814855';
+/** Daftar nomor yang ditampilkan di footer: [tampilan, nomor wa.me] */
+export const WA_LIST: [string, string][] = [
+  ['+62 852-9249-6845', WA],
+  ['+62 881-2814-855', WA_ALT],
+];
 export const ADMIN_PASS = 'admin123';
 export const EQ_CATS = ['Sound System', 'Lighting', 'Layar LED', 'Panggung', 'Multimedia'];
 export const PORT_CATS = ['Konser & Musik', 'Wedding', 'Acara Kantor', 'Pameran'];

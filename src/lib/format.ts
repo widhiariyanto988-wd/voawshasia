@@ -7,8 +7,8 @@ export const rp = (n: number) => 'Rp ' + Number(n).toLocaleString('id-ID');
 export const esc = (s: string) =>
   String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
 
-/** Buat URL WhatsApp dengan pesan yang sudah di-encode. */
-export const wa = (text: string) => `https://wa.me/${D.WA}?text=${encodeURIComponent(text)}`;
+/** Buat URL WhatsApp dengan pesan yang sudah di-encode. Nomor bisa ditimpa untuk WA cadangan. */
+export const wa = (text: string, number = D.WA) => `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
 
 /** Tag img dengan fallback otomatis saat gambar gagal dimuat. */
 export const img = (src: string, cat: string, cls: string) =>

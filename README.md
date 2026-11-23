@@ -74,7 +74,8 @@ Sandi default: **`admin123`**
 Ubah sandi dan nomor WhatsApp di `src/data.ts`:
 
 ```ts
-export const WA = '6281234567890';   // nomor WA tanpa tanda +
+export const WA = '6285292496845';    // WA utama: 0852-9249-6845
+export const WA_ALT = '628812814855'; // WA cadangan: 0881-2814-855
 export const ADMIN_PASS = 'admin123';
 ```
 
