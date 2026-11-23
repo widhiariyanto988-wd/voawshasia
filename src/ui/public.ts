@@ -30,7 +30,7 @@ export function renderShell() {
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 md:h-20">
       <a href="#top" class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-zinc-950 text-xl"><i class="fa-solid fa-bolt"></i></div>
-        <div><span class="font-display font-extrabold text-xl text-white">VOAW<span class="text-amber-400">SHASIA</span></span>
+        <div><span class="font-display font-extrabold text-xl text-white">VOAWSH<span class="text-amber-400">ASIA</span></span>
         <span class="block text-[10px] uppercase tracking-widest text-zinc-400 -mt-1">Production & Rental</span></div>
       </a>
       <nav class="hidden md:flex gap-8 text-sm font-medium text-zinc-300">${NAV.map(([h, l]) => `<a href="#${h}" class="hover:text-amber-400 transition">${l}</a>`).join('')}</nav>
@@ -46,7 +46,11 @@ export function renderShell() {
   </header>
 
   <section id="top" class="relative overflow-hidden hero-radial pt-16 pb-20 md:pt-24 md:pb-28 border-b border-zinc-800/70">
-    <div class="absolute inset-0 -z-10 opacity-30"><img src="/hero.jpg" alt="" class="w-full h-full object-cover" style="object-position:center 35%" fetchpriority="high"><div class="absolute inset-0 bg-gradient-to-t from-darkbg via-darkbg/80 to-transparent"></div></div>
+    <div class="absolute inset-0 -z-10 overflow-hidden">
+      <img src="/hero.jpg" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover blur-2xl scale-110 opacity-30">
+      <img src="/hero.jpg" alt="" class="absolute inset-0 w-full h-full object-contain opacity-60" fetchpriority="high">
+      <div class="absolute inset-0 bg-gradient-to-t from-darkbg via-darkbg/75 to-transparent"></div>
+    </div>
     <div class="max-w-4xl mx-auto px-4 text-center flex flex-col items-center">
       <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-400 text-sm font-semibold mb-6"><span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>Sewa Alat Event &amp; Produksi Panggung</div>
       <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.15] mb-6">Bikin Acaramu Meriah dengan <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-300 to-cyan-400">Alat Standar Konser</span></h1>
@@ -106,7 +110,7 @@ export function renderShell() {
 
   <footer class="bg-zinc-950 border-t border-zinc-800/80 py-12 mt-auto">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div><div class="flex items-center gap-3 mb-4"><div class="w-9 h-9 rounded-xl bg-amber-500 flex items-center justify-center text-zinc-950"><i class="fa-solid fa-bolt"></i></div><span class="font-display font-extrabold text-lg">VOAW<span class="text-amber-400">SHASIA</span></span></div>
+      <div><div class="flex items-center gap-3 mb-4"><div class="w-9 h-9 rounded-xl bg-amber-500 flex items-center justify-center text-zinc-950"><i class="fa-solid fa-bolt"></i></div><span class="font-display font-extrabold text-lg">VOAWSH<span class="text-amber-400">ASIA</span></span></div>
         <p class="text-zinc-400 text-sm leading-relaxed">Penyedia sewa sound system, lighting, layar LED, dan panggung konser terpercaya dengan kru teknis siap siaga.</p></div>
       <div><h4 class="font-bold text-sm uppercase tracking-wider mb-4">Alamat Gudang</h4>
         <ul class="space-y-2.5 text-sm text-zinc-400">

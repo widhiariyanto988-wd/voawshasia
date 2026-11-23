@@ -64,7 +64,7 @@ export function renderAdmin() {
 
   $('#admin').innerHTML = `<aside class="w-full lg:w-64 bg-darkcard border-b lg:border-b-0 lg:border-r border-zinc-800 flex flex-col shrink-0">
     <div class="p-5 border-b border-zinc-800 flex items-center gap-2.5"><div class="w-8 h-8 rounded-lg bg-amber-500 flex items-center justify-center text-zinc-950"><i class="fa-solid fa-bolt"></i></div>
-      <div><span class="font-display font-bold text-sm block">VOAWSHASIA</span><span class="text-[10px] text-cyan-400 font-bold uppercase tracking-wider">Panel Admin</span></div></div>
+      <div><span class="font-display font-bold text-sm block">VOAWSH<span class="text-amber-400">ASIA</span></span><span class="text-[10px] text-cyan-400 font-bold uppercase tracking-wider">Panel Admin</span></div></div>
     <nav class="p-3 flex lg:flex-col gap-1.5 overflow-x-auto">${tabs.map(([k, ic, l]) => `<button data-act="admin-tab" data-v="${k}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm whitespace-nowrap transition ${k === state.adminTab ? 'font-bold bg-amber-500 text-zinc-950' : 'font-medium text-zinc-400 hover:bg-zinc-900 hover:text-white'}"><i class="fa-solid ${ic} w-4"></i>${l}${k === 'inquiries' ? `<span class="ml-auto px-2 py-0.5 text-xs rounded-full bg-cyan-500/20 text-cyan-300">${state.inquiries.length}</span>` : ''}</button>`).join('')}</nav>
     <div class="mt-auto p-4 border-t border-zinc-800 flex lg:flex-col gap-2">
       <button data-act="to-public" class="flex-1 py-2.5 px-4 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-xs font-bold"><i class="fa-solid fa-eye text-amber-400 mr-2"></i>Kembali ke Web Utama</button>
