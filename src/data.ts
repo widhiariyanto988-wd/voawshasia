@@ -9,7 +9,7 @@ export const WA_LIST: [string, string][] = [
   ['+62 852-9249-6845', WA],
   ['+62 881-2814-855', WA_ALT],
 ];
-export const ADMIN_PASS = 'admin123';
+export const ADMIN_PASS = 'Bismillah2026';
 export const EQ_CATS = ['Sound System', 'Lighting', 'Layar LED', 'Panggung', 'Multimedia'];
 export const PORT_CATS = ['Konser & Musik', 'Wedding', 'Acara Kantor', 'Pameran'];
 
