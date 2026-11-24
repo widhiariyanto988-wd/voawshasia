@@ -90,13 +90,28 @@ export function renderShell() {
         <p class="text-zinc-400 mt-3 max-w-xl mx-auto text-sm sm:text-base">Cuplikan video langsung dari lapangan. Panggung, cahaya, dan energi acara yang kami wujudkan — dalam beberapa detik saja.</p>
         <div class="mt-5 flex items-center justify-center gap-3 text-[11px] text-zinc-500 font-semibold"><span class="w-8 h-px bg-zinc-700"></span>3 REELS TERBARU<span class="w-8 h-px bg-zinc-700"></span></div>
       </div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-7 justify-items-center">
-        ${D.IG_POSTS.map((p, i) => ({ p, i })).filter((x) => x.p.type === 'Reel').map(({ p, i }) => `<button data-act="ig-detail" data-v="${i}" aria-label="Tonton reel: ${esc(p.caption)}" class="group relative w-full max-w-[280px] rounded-[28px] bg-white p-2.5 shadow-2xl shadow-black/50 ring-1 ring-white/10 hover:ring-amber-400/60 focus:outline-none focus:ring-2 focus:ring-amber-400 transition duration-300">
-          <div class="relative aspect-[9/16] w-full overflow-hidden rounded-[22px] bg-black">
-            <img src="${import.meta.env.BASE_URL}instagram/${p.file}" alt="${esc(p.caption)}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-            <span class="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/35 transition"><span class="w-14 h-14 rounded-full bg-white/95 text-zinc-950 flex items-center justify-center text-lg pl-1 shadow-xl opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-110 transition duration-300"><i class="fa-solid fa-play"></i></span></span>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7 justify-items-center">
+        ${D.IG_POSTS.map((p, i) => ({ p, i })).filter((x) => x.p.type === 'Reel').map(({ p, i }) => `<button data-act="ig-detail" data-v="${i}" aria-label="Tonton reel: ${esc(p.caption)}" class="group relative w-full max-w-[340px] text-left bg-white rounded-2xl overflow-hidden shadow-2xl shadow-black/50 ring-1 ring-white/10 hover:ring-amber-400/60 focus:outline-none focus:ring-2 focus:ring-amber-400 transition duration-300">
+          <div class="flex items-center gap-2.5 px-3.5 py-3 border-b border-zinc-100">
+            <div class="w-8 h-8 rounded-full p-[2px] bg-gradient-to-tr from-fuchsia-600 via-pink-500 to-orange-400 shrink-0"><img src="${import.meta.env.BASE_URL}logo.jpg" alt="" class="w-full h-full rounded-full object-cover bg-white ring-2 ring-white"></div>
+            <div class="min-w-0"><div class="text-[13px] font-extrabold text-zinc-900 leading-tight">voawsh_asia</div><div class="text-[10px] text-zinc-500 truncate">Rental Sound System &amp; VJ Solo</div></div>
+            <i class="fa-solid fa-ellipsis text-zinc-400 ml-auto text-sm"></i>
           </div>
-          <span class="absolute -inset-1 -z-10 rounded-[32px] bg-gradient-to-br from-amber-400/0 via-fuchsia-500/0 to-cyan-400/0 group-hover:from-amber-400/40 group-hover:via-fuchsia-500/30 group-hover:to-cyan-400/40 blur-lg transition duration-300"></span>
+          <div class="relative aspect-[4/5] w-full overflow-hidden bg-black">
+            <img src="${import.meta.env.BASE_URL}instagram/${p.file}" alt="${esc(p.caption)}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            <span class="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/30 transition"><span class="w-14 h-14 rounded-full bg-white/95 text-zinc-950 flex items-center justify-center text-lg pl-1 shadow-xl opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-110 transition duration-300"><i class="fa-solid fa-play"></i></span></span>
+          </div>
+          <div class="px-3.5 pt-3 pb-4">
+            <div class="flex items-center gap-4 text-zinc-900 text-lg">
+              <span class="hover:text-rose-500 transition" title="Suka"><i class="fa-regular fa-heart"></i></span>
+              <span class="hover:text-amber-500 transition" title="Komentar"><i class="fa-regular fa-comment"></i></span>
+              <span class="hover:text-cyan-500 transition" title="Bagikan"><i class="fa-regular fa-paper-plane"></i></span>
+              <span class="ml-auto hover:text-amber-500 transition" title="Simpan"><i class="fa-regular fa-bookmark"></i></span>
+            </div>
+            <div class="mt-2 text-[12px] leading-relaxed text-zinc-800"><span class="font-extrabold">voawsh_asia</span> <span class="line-clamp-2">${esc(p.caption)}</span></div>
+            <div class="mt-2 text-[10px] font-semibold uppercase tracking-wider text-zinc-400">${esc(p.date)}</div>
+          </div>
+          <span class="absolute -inset-1 -z-10 rounded-[24px] bg-gradient-to-br from-amber-400/0 via-fuchsia-500/0 to-cyan-400/0 group-hover:from-amber-400/40 group-hover:via-fuchsia-500/30 group-hover:to-cyan-400/40 blur-lg transition duration-300"></span>
         </button>`).join('')}
       </div>
       <div class="mt-12 text-center">
