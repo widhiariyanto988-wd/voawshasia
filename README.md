@@ -59,7 +59,17 @@ npm run build      # cek tipe + build produksi ke dist/
 npm run preview    # preview hasil build (http://localhost:4173)
 ```
 
-Hasil build statis ada di folder `dist/` dan bisa di-deploy ke hosting statis apa pun (Netlify, Vercel, GitHub Pages, Nginx, dll.).
+Hasil build statis ada di folder `dist/`.
+
+## Deploy ke Vercel
+
+1. Buka https://vercel.com/new dan import repo GitHub `widhiariyanto988-wd/voawshasia`.
+2. Vercel akan mendeteksi Vite. Pastikan:
+   - **Build Command:** `npm run build`
+   - **Output Directory:** `dist`
+3. Klik **Deploy**. Setiap push ke `main` akan otomatis di-deploy ulang.
+
+Konfigurasi juga sudah tersimpan di `vercel.json`.
 
 ## Akses admin
 
