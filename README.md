@@ -9,6 +9,8 @@ Landing page sewa alat event dan produksi panggung berbasis **Vite + TypeScript*
 - Paket hemat siap pakai
 - Keranjang sewa dengan jumlah unit & lama hari, lalu kirim ringkasan ke WhatsApp
 - Panel admin tersembunyi untuk kelola alat, portofolio, dan pesanan masuk
+- Upload foto langsung dari perangkat di form admin (tanpa link, otomatis dikompres)
+- Tautan Instagram & YouTube di footer
 - Semua perubahan data tersimpan di `localStorage` (tanpa backend)
 
 ## Tech stack
@@ -38,7 +40,8 @@ Landing page sewa alat event dan produksi panggung berbasis **Vite + TypeScript*
     ├── data.ts           # Data awal, kategori, konfigurasi WA & sandi admin
     ├── style.css         # CSS kustom (scrollbar, nav, gradasi hero)
     ├── lib/
-    │   └── format.ts     # Util murni: format rupiah, escape HTML, WA, gambar
+    │   ├── format.ts     # Util murni: format rupiah, escape HTML, WA, gambar
+    │   └── image.ts      # Kompresi foto upload jadi data URL JPEG
     └── ui/
         ├── shared.ts     # DOM helper, toast, chip, badge status, modal
         ├── public.ts     # Render halaman public (shell, portofolio, katalog)
@@ -103,3 +106,25 @@ Kunci `localStorage` yang dipakai:
 | `vs_ts_cart` | Keranjang sewa |
 
 Tombol **Reset Data Awal** di dashboard admin mengembalikan data ke nilai default dari `src/data.ts`.
+
+### Batas upload (versi localStorage)
+
+| Jenis | Batas saat ini |
+| --- | --- |
+| Foto dipilih | Maks. **8 MB** per file (JPG/PNG/WebP) |
+| Foto tersimpan | Otomatis dikompres ke **±700 KB** per foto |
+| Total penyimpanan | ~**5 MB** per browser (localStorage) |
+| Video | **Belum didukung** di localStorage |
+
+Karena kuota browser kecil, foto tetap dikompres otomatis. Untuk penyimpanan bersama & video, gunakan **Supabase Storage** (maks. 50 MB/file, total 1 GB di free tier) atau **Cloudflare R2** untuk video besar.
+
+### Media sosial
+
+Tautan diatur di `src/data.ts` pada `SOCIALS`:
+
+```ts
+export const SOCIALS = [
+  { label: 'Instagram @voawsh_asia', url: 'https://www.instagram.com/voawsh_asia/', icon: 'fa-brands fa-instagram' },
+  { label: 'YouTube @VoawshNetwork', url: 'https://www.youtube.com/@VoawshNetwork', icon: 'fa-brands fa-youtube' },
+];
+```

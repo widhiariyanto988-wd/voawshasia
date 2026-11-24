@@ -111,7 +111,10 @@ export function renderShell() {
   <footer class="bg-zinc-950 border-t border-zinc-800/80 py-12 mt-auto">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
       <div><div class="flex items-center gap-3 mb-4"><div class="w-9 h-9 rounded-xl bg-amber-500 flex items-center justify-center text-zinc-950"><i class="fa-solid fa-bolt"></i></div><span class="font-display font-extrabold text-lg">VOAWSH<span class="text-amber-400">ASIA</span></span></div>
-        <p class="text-zinc-400 text-sm leading-relaxed">Penyedia sewa sound system, lighting, layar LED, dan panggung konser terpercaya dengan kru teknis siap siaga.</p></div>
+        <p class="text-zinc-400 text-sm leading-relaxed">Penyedia sewa sound system, lighting, layar LED, dan panggung konser terpercaya dengan kru teknis siap siaga.</p>
+        <div class="mt-4 flex items-center gap-2">
+          ${D.SOCIALS.map((s) => `<a href="${s.url}" target="_blank" rel="noopener noreferrer" aria-label="${esc(s.label)}" title="${esc(s.label)}" class="w-9 h-9 rounded-lg bg-zinc-900 hover:bg-amber-500 hover:text-zinc-950 border border-zinc-800 flex items-center justify-center transition"><i class="${s.icon}"></i></a>`).join('')}
+        </div></div>
       <div><h4 class="font-bold text-sm uppercase tracking-wider mb-4">Alamat Gudang</h4>
         <ul class="space-y-2.5 text-sm text-zinc-400">
           <li><i class="fa-solid fa-location-dot text-amber-400 mr-2"></i>Jl. Industri Raya No. 88, Jakarta Selatan</li>

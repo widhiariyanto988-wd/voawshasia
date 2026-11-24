@@ -1,5 +1,6 @@
 import type { CartItem, Equipment, Inquiry, Portfolio } from './types';
 import * as D from './data';
+import { toast } from './ui/shared';
 
 const STORAGE = {
   equipment: 'vs_ts_equipment',
@@ -29,12 +30,18 @@ export const state = {
   search: '',
 };
 
-/** Simpan seluruh state ke localStorage. */
+/** Simpan seluruh state ke localStorage. Gagal kalau kuota browser penuh. */
 export const save = () => {
-  localStorage.setItem(STORAGE.equipment, JSON.stringify(state.equipment));
-  localStorage.setItem(STORAGE.portfolio, JSON.stringify(state.portfolio));
-  localStorage.setItem(STORAGE.inquiries, JSON.stringify(state.inquiries));
-  localStorage.setItem(STORAGE.cart, JSON.stringify(state.cart));
+  try {
+    localStorage.setItem(STORAGE.equipment, JSON.stringify(state.equipment));
+    localStorage.setItem(STORAGE.portfolio, JSON.stringify(state.portfolio));
+    localStorage.setItem(STORAGE.inquiries, JSON.stringify(state.inquiries));
+    localStorage.setItem(STORAGE.cart, JSON.stringify(state.cart));
+    return true;
+  } catch {
+    toast('Penyimpanan browser penuh. Hapus beberapa foto atau pakai Supabase.', true);
+    return false;
+  }
 };
 
 /** Kembalikan peralatan, portofolio, pesanan, dan keranjang ke data awal. */

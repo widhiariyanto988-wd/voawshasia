@@ -2,6 +2,7 @@ import './style.css';
 import * as D from './data';
 import type { Equipment, Portfolio, Status } from './types';
 import { resetData, save, state } from './store';
+import { compressImage } from './lib/image';
 import { eqForm, loginModal, ptForm, renderAdmin, val } from './ui/admin';
 import { addCart, openDrawer, order, renderDrawer, updateBadge } from './ui/cart';
 import { portDetail, renderCatalog, renderPortfolio, renderPublic, renderShell } from './ui/public';
@@ -116,6 +117,17 @@ document.addEventListener('click', (ev) => {
       renderAdmin();
       toast('Portofolio dihapus.', true);
       break;
+    case 'photo-clear': {
+      const hidden = document.getElementById('f-img') as HTMLInputElement | null;
+      const file = document.getElementById('f-file') as HTMLInputElement | null;
+      const preview = document.getElementById('f-preview') as HTMLImageElement | null;
+      const category = document.getElementById('f-cat') as HTMLSelectElement | null;
+      if (hidden) hidden.value = '';
+      if (file) file.value = '';
+      if (preview) preview.src = category ? (D.FALLBACK[category.value] ?? '') : '';
+      toast('Foto dihapus. Klik Simpan untuk menerapkan.');
+      break;
+    }
     case 'reset':
       resetData();
       renderAdmin();
@@ -183,6 +195,22 @@ document.addEventListener('input', (ev) => {
   if ((ev.target as HTMLElement).id === 'search') {
     state.search = (ev.target as HTMLInputElement).value;
     renderCatalog();
+  }
+});
+
+document.addEventListener('change', async (ev) => {
+  const input = ev.target as HTMLInputElement;
+  if (input?.id !== 'f-file' || !input.files?.length) return;
+  try {
+    const dataUrl = await compressImage(input.files[0]);
+    const hidden = document.getElementById('f-img') as HTMLInputElement | null;
+    const preview = document.getElementById('f-preview') as HTMLImageElement | null;
+    if (hidden) hidden.value = dataUrl;
+    if (preview) preview.src = dataUrl;
+    toast(`Foto siap (${Math.round(dataUrl.length / 1024)} KB). Klik Simpan untuk menyimpan.`);
+  } catch (err) {
+    toast(err instanceof Error ? err.message : 'Gagal memproses foto.', true);
+    input.value = '';
   }
 });
 

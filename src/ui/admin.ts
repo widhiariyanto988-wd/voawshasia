@@ -2,6 +2,7 @@ import type { Equipment, Portfolio } from '../types';
 import * as D from '../data';
 import { save, state } from '../store';
 import { esc, img, rp } from '../lib/format';
+import { PHOTO_INPUT_MAX_MB } from '../lib/image';
 import { $, openModal, statusCls } from './shared';
 
 /** Modal kata sandi untuk membuka panel admin. */
@@ -82,6 +83,22 @@ const field = (id: string, label: string, val: string | number, type = 'text', p
 const select = (id: string, label: string, opts: string[], val: string) =>
   `<div><label class="block text-xs font-semibold text-zinc-400 mb-1">${label}</label><select id="${id}" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-sm">${opts.map((o) => `<option ${o === val ? 'selected' : ''}>${esc(o)}</option>`).join('')}</select></div>`;
 
+/** Input upload foto dengan pratinjau. Hasil kompresi disimpan di input hidden f-img. */
+const photoField = (current: string, category: string) => {
+  const src = current || D.FALLBACK[category] || '';
+  return `<div>
+    <label class="block text-xs font-semibold text-zinc-400 mb-1.5">Foto ${current ? '(klik ganti)' : '(opsional)'}</label>
+    <img id="f-preview" src="${esc(src)}" alt="Pratinjau foto" class="w-full h-40 object-cover rounded-xl border border-zinc-800 bg-zinc-900 mb-2">
+    <div class="flex flex-wrap items-center gap-2">
+      <label for="f-file" class="cursor-pointer px-3.5 py-2 rounded-lg bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 text-xs font-bold"><i class="fa-solid fa-upload mr-1.5"></i>Pilih Foto</label>
+      <input id="f-file" type="file" accept="image/*" class="hidden">
+      <button type="button" data-act="photo-clear" class="px-3 py-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-400 text-xs font-bold"><i class="fa-solid fa-trash mr-1"></i>Hapus</button>
+    </div>
+    <input id="f-img" type="hidden" value="${esc(current)}">
+    <p class="text-[11px] text-zinc-500 mt-2">Maks. ${PHOTO_INPUT_MAX_MB} MB saat dipilih · otomatis dikompres ke ±700 KB.</p>
+  </div>`;
+};
+
 const formShell = (title: string, kind: string, id: string, inner: string) =>
   `<form data-form="${kind}" data-id="${id}" class="bg-darkcard border border-zinc-800 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl space-y-4">
     <div class="flex items-center justify-between pb-4 border-b border-zinc-800"><h3 class="font-display font-bold text-lg">${title}</h3><button type="button" data-act="close" class="text-zinc-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button></div>
@@ -108,7 +125,7 @@ export function eqForm(id?: string) {
         `<div class="grid sm:grid-cols-2 gap-4">${select('f-cat', 'Kategori *', D.EQ_CATS, e.category)}${select('f-status', 'Status Stok *', ['Ready', 'Stok Terbatas', 'Habis'], e.status)}</div>` +
         `<div class="grid sm:grid-cols-2 gap-4">${field('f-price', 'Harga Sewa / Hari (Rp) *', e.price || '', 'number', '500000', 'required min="0" step="25000"')}${field('f-stock', 'Jumlah Unit *', e.stock, 'number', '8', 'required min="0"')}</div>` +
         field('f-specs', 'Spesifikasi Singkat *', e.specs, 'text', 'Daya 1400W, suara jernih', 'required') +
-        field('f-img', 'Link Foto (Opsional)', e.image, 'url', 'https://...'),
+        photoField(e.image, e.category),
     ),
   );
 }
@@ -133,7 +150,7 @@ export function ptForm(id?: string) {
         `<div class="grid sm:grid-cols-2 gap-4">${select('f-cat', 'Kategori *', D.PORT_CATS, p.category)}${field('f-loc', 'Lokasi *', p.location, 'text', 'Balai Sarbini, Jakarta', 'required')}</div>` +
         field('f-gear', 'Alat yang Dipakai (pisahkan koma) *', p.gearUsed.join(', '), 'text', 'Sound 20.000W, Layar LED 6x4m', 'required') +
         `<div><label class="block text-xs font-semibold text-zinc-400 mb-1">Ringkasan Acara *</label><textarea id="f-desc" rows="3" required class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-sm focus:outline-none focus:border-amber-500">${esc(p.description)}</textarea></div>` +
-        field('f-img', 'Link Foto (Opsional)', p.image, 'url', 'https://...'),
+        photoField(p.image, p.category),
     ),
   );
 }

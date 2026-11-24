@@ -9,6 +9,11 @@ export const WA_LIST: [string, string][] = [
   ['+62 881-2814-855', WA],
   ['+62 852-9249-6845', WA_ALT],
 ];
+/** Akun media sosial resmi VOAWSHASIA. */
+export const SOCIALS: { label: string; url: string; icon: string }[] = [
+  { label: 'Instagram @voawsh_asia', url: 'https://www.instagram.com/voawsh_asia/', icon: 'fa-brands fa-instagram' },
+  { label: 'YouTube @VoawshNetwork', url: 'https://www.youtube.com/@VoawshNetwork', icon: 'fa-brands fa-youtube' },
+];
 export const ADMIN_PASS = 'Bismillah2026';
 export const EQ_CATS = ['Sound System', 'Lighting', 'Layar LED', 'Panggung', 'Multimedia'];
 export const PORT_CATS = ['Konser & Musik', 'Wedding', 'Acara Kantor', 'Pameran'];
