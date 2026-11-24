@@ -10,7 +10,7 @@ Landing page sewa alat event dan produksi panggung berbasis **Vite + TypeScript*
 - Keranjang sewa dengan jumlah unit & lama hari, lalu kirim ringkasan ke WhatsApp
 - Panel admin tersembunyi untuk kelola alat, portofolio, dan pesanan masuk
 - Upload foto langsung dari perangkat di form admin (tanpa link, otomatis dikompres)
-- Tautan Instagram & YouTube di footer
+- Galeri Instagram + tautan Instagram & YouTube di footer
 - Semua perubahan data tersimpan di `localStorage` (tanpa backend)
 
 ## Tech stack

@@ -9,21 +9,33 @@ const NAV: [string, string][] = [
   ['daftar-alat', 'Daftar Alat'],
   ['paket-hemat', 'Paket Hemat'],
   ['cara-sewa', 'Cara Sewa'],
+  ['instagram', 'Instagram'],
 ];
 
 /** Kerangka halaman public: header, hero, section, dan footer. Dipanggil sekali saat init. */
 export function renderShell() {
   const packages = D.PACKAGES.map((p, i) => `
-    <div class="rounded-2xl p-6 sm:p-8 flex flex-col justify-between relative ${p.featured ? 'bg-gradient-to-b from-zinc-900 to-darkcard border-2 border-amber-500 shadow-xl shadow-amber-500/10' : 'bg-darkcard border border-zinc-800'}">
-      ${p.featured ? '<div class="absolute -top-3.5 right-6 px-3.5 py-1 rounded-full bg-amber-500 text-zinc-950 text-xs font-extrabold uppercase">Paling Laris</div>' : ''}
+    <div class="rounded-2xl p-6 sm:p-8 flex flex-col justify-between relative transition duration-300 ${p.featured ? 'bg-gradient-to-b from-zinc-900 to-darkcard border-2 border-amber-500 shadow-2xl shadow-amber-500/25 ring-4 ring-amber-500/10 md:-translate-y-4 md:scale-[1.03] z-10' : 'bg-darkcard border border-zinc-800 hover:-translate-y-1'}">
+      ${p.featured ? `<div class="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap px-5 py-1.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-300 text-zinc-950 text-[11px] sm:text-xs font-extrabold uppercase tracking-wider shadow-lg shadow-amber-500/40 flex items-center gap-1.5"><i class="fa-solid fa-crown"></i>Paling Laris</div>` : ''}
+      ${p.featured ? '<div class="absolute -inset-px rounded-2xl bg-amber-500/10 blur-xl -z-10"></div>' : ''}
       <div>
-        <span class="px-3 py-1 rounded-full bg-zinc-800 text-${p.color}-400 text-xs font-semibold">${esc(p.tag)}</span>
+        <span class="px-3 py-1 rounded-full ${p.featured ? 'bg-amber-500 text-zinc-950' : 'bg-zinc-800 text-' + p.color + '-400'} text-xs font-semibold">${esc(p.tag)}</span>
         <h3 class="font-display text-xl font-bold text-white mt-4">${esc(p.name)}</h3>
         <div class="mt-3"><span class="text-2xl sm:text-3xl font-extrabold text-amber-400">${rp(p.price)}</span> <span class="text-xs text-zinc-400">/ hari</span></div>
         <ul class="mt-6 space-y-3 text-sm text-zinc-300">${p.items.map((t) => `<li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-${p.color}-400"></i>${esc(t)}</li>`).join('')}</ul>
       </div>
-      <button data-act="add-pkg" data-v="${i}" class="mt-8 w-full py-3.5 rounded-xl font-bold text-sm transition ${p.featured ? 'bg-amber-500 hover:bg-amber-400 text-zinc-950 font-extrabold' : 'bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 text-white'}">Pilih Paket Ini</button>
+      <button data-act="add-pkg" data-v="${i}" class="mt-8 w-full py-3.5 rounded-xl font-bold text-sm transition ${p.featured ? 'bg-amber-500 hover:bg-amber-400 text-zinc-950 font-extrabold shadow-lg shadow-amber-500/25' : 'bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 text-white'}">${p.featured ? 'Pilih Paket Paling Laris' : 'Pilih Paket Ini'}</button>
     </div>`).join('');
+
+  // Pratinjau galeri Instagram. Ganti dengan foto feed asli bila tersedia.
+  const igImages = [
+    D.FALLBACK['Konser & Musik'],
+    D.FALLBACK['Wedding'],
+    `${import.meta.env.BASE_URL}hero.jpg`,
+    D.FALLBACK['Acara Kantor'],
+    D.FALLBACK['Pameran'],
+    D.FALLBACK['Lighting'],
+  ];
 
   $('#public').innerHTML = `
   <header class="sticky top-0 z-40 glass-nav border-b border-zinc-800/80">
@@ -35,8 +47,8 @@ export function renderShell() {
       </a>
       <nav class="hidden md:flex gap-8 text-sm font-medium text-zinc-300">${NAV.map(([h, l]) => `<a href="#${h}" class="hover:text-amber-400 transition">${l}</a>`).join('')}</nav>
       <div class="flex items-center gap-2.5">
-        <button data-act="cart-open" class="px-3.5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 flex items-center gap-2">
-          <i class="fa-solid fa-cart-shopping text-amber-400"></i><span class="hidden sm:inline text-sm font-semibold">Keranjang Sewa</span>
+        <button data-act="cart-open" title="Keranjang Sewa" aria-label="Keranjang Sewa" class="px-3.5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 flex items-center gap-2">
+          <i class="fa-solid fa-cart-shopping text-amber-400"></i>
           <span id="cart-badge" class="px-2 py-0.5 text-xs font-extrabold text-zinc-950 bg-amber-400 rounded-full">0</span></button>
         <a href="${wa('Halo VOAWSHASIA, saya mau tanya sewa alat event.')}" target="_blank" class="px-3.5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 text-sm font-bold flex items-center gap-2"><i class="fa-brands fa-whatsapp"></i>Chat WA</a>
         <button data-act="menu" class="md:hidden p-2.5 rounded-xl bg-zinc-900 border border-zinc-800"><i class="fa-solid fa-bars"></i></button>
@@ -45,10 +57,10 @@ export function renderShell() {
     <div id="mobile-menu" class="hidden md:hidden bg-zinc-950 border-b border-zinc-800 px-4 py-2">${NAV.map(([h, l]) => `<a href="#${h}" data-act="menu" class="block px-3 py-2.5 text-sm text-zinc-300 hover:text-amber-400">${l}</a>`).join('')}</div>
   </header>
 
-  <section id="top" class="relative overflow-hidden hero-radial pt-16 pb-20 md:pt-24 md:pb-28 border-b border-zinc-800/70">
+  <section id="top" class="-mt-16 md:-mt-20 relative overflow-hidden hero-radial pt-16 pb-20 md:pt-24 md:pb-28 border-b border-zinc-800/70">
     <div class="absolute inset-0 -z-10 overflow-hidden">
-      <img src="${import.meta.env.BASE_URL}hero.jpg" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover blur-2xl scale-110 opacity-30">
-      <img src="${import.meta.env.BASE_URL}hero.jpg" alt="" class="absolute inset-0 w-full h-full object-contain opacity-60" fetchpriority="high">
+      <img src="${import.meta.env.BASE_URL}hero.jpg" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover object-top blur-2xl scale-110 opacity-30">
+      <img src="${import.meta.env.BASE_URL}hero.jpg" alt="" class="absolute inset-0 w-full h-full object-cover object-top opacity-70" fetchpriority="high">
       <div class="absolute inset-0 bg-gradient-to-t from-darkbg via-darkbg/75 to-transparent"></div>
     </div>
     <div class="max-w-4xl mx-auto px-4 text-center flex flex-col items-center">
@@ -108,6 +120,23 @@ export function renderShell() {
     </div>
   </section>
 
+  <section id="instagram" class="py-16 md:py-20 bg-zinc-950/60 border-t border-zinc-800/80 w-full">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-8">
+        <div><span class="text-amber-400 font-bold text-xs uppercase tracking-widest">Instagram Kami</span>
+          <h2 class="font-display text-3xl sm:text-4xl font-extrabold mt-1.5">@voawsh_asia</h2>
+          <p class="text-zinc-400 mt-2 max-w-xl">Dokumentasi acara, keseruan tim, dan hasil kerja terbaru VOAWSHASIA. Ikuti akun resmi kami.</p></div>
+        <a href="${D.SOCIALS[0].url}" target="_blank" rel="noopener noreferrer" class="shrink-0 px-5 py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 via-pink-600 to-orange-500 hover:opacity-90 text-white text-sm font-bold flex items-center justify-center gap-2"><i class="fa-brands fa-instagram text-lg"></i>Follow @voawsh_asia</a>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
+        ${igImages.map((src) => `<a href="${D.SOCIALS[0].url}" target="_blank" rel="noopener noreferrer" class="group relative aspect-square overflow-hidden rounded-xl bg-darkcard border border-zinc-800">
+          ${img(src, 'Konser & Musik', 'w-full h-full object-cover group-hover:scale-110 transition duration-500')}
+          <span class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition flex items-end justify-center pb-3"><i class="fa-brands fa-instagram text-white text-2xl"></i></span>
+        </a>`).join('')}
+      </div>
+    </div>
+  </section>
+
   <footer class="bg-zinc-950 border-t border-zinc-800/80 py-12 mt-auto">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
       <div><div class="flex items-center gap-3 mb-4"><div class="w-9 h-9 rounded-xl bg-amber-500 flex items-center justify-center text-zinc-950"><i class="fa-solid fa-bolt"></i></div><span class="font-display font-extrabold text-lg">VOAWSH<span class="text-amber-400">ASIA</span></span></div>
@@ -121,8 +150,8 @@ export function renderShell() {
           <li><i class="fa-solid fa-clock text-amber-400 mr-2"></i>Buka Setiap Hari: 08.00 – 22.00 WIB</li>
           ${D.WA_LIST.map(([label, number]) => `<li><a href="${wa('Halo VOAWSHASIA, saya ingin menghubungi Anda.', number)}" target="_blank" class="hover:text-emerald-400"><i class="fa-brands fa-whatsapp text-emerald-400 mr-2"></i>${label}</a></li>`).join('')}</ul></div>
       <div><h4 class="font-bold text-sm uppercase tracking-wider mb-4">Navigasi Cepat</h4><div class="flex flex-wrap gap-2">
-        ${NAV.slice(0, 3).map(([h, l]) => `<a href="#${h}" class="px-3 py-1.5 rounded-lg bg-zinc-900 text-zinc-300 text-xs hover:text-amber-400">${l}</a>`).join('')}
-        <button data-act="cart-open" class="px-3 py-1.5 rounded-lg bg-zinc-900 text-zinc-300 text-xs hover:text-amber-400">Keranjang Sewa</button></div></div>
+        ${NAV.map(([h, l]) => `<a href="#${h}" class="px-3 py-1.5 rounded-lg bg-zinc-900 text-zinc-300 text-xs hover:text-amber-400">${l}</a>`).join('')}
+        <button data-act="cart-open" title="Keranjang Sewa" aria-label="Keranjang Sewa" class="px-3 py-1.5 rounded-lg bg-zinc-900 text-zinc-300 text-xs hover:text-amber-400"><i class="fa-solid fa-cart-shopping"></i></button></div></div>
     </div>
     <div class="max-w-7xl mx-auto px-4 mt-10 pt-6 border-t border-zinc-900 text-center text-xs text-zinc-500">
       <span id="secret" class="select-none cursor-default">&copy; 2026 VOAWSHASIA Production &amp; Rental. Hak Cipta Dilindungi.</span></div>
