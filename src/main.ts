@@ -56,6 +56,30 @@ document.addEventListener('click', (ev) => {
     case 'ig-detail':
       igDetail(Number(v));
       break;
+    case 'noop':
+      break;
+    case 'reel-play': {
+      const card = el.closest<HTMLElement>('[data-reel-card]');
+      const video = card?.querySelector<HTMLVideoElement>('.reel-video');
+      if (!card || !video) {
+        igDetail(Number(v));
+        break;
+      }
+      document.querySelectorAll<HTMLElement>('[data-reel-card]').forEach((otherCard) => {
+        const otherVideo = otherCard.querySelector<HTMLVideoElement>('.reel-video');
+        if (!otherVideo || otherCard === card || otherVideo.paused) return;
+        otherVideo.pause();
+        otherVideo.classList.add('hidden');
+        otherCard.querySelector('.reel-poster')?.classList.remove('hidden');
+        otherCard.querySelector('.reel-play')?.classList.remove('hidden');
+      });
+      card.querySelector('.reel-poster')?.classList.add('hidden');
+      el.classList.add('hidden');
+      video.classList.remove('hidden');
+      video.currentTime = 0;
+      void video.play().catch(() => { video.controls = true; });
+      break;
+    }
     case 'add': {
       const e = state.equipment.find((x) => x.id === id);
       if (e && e.status !== 'Habis') addCart(e.id, e.name, e.price);

@@ -21,6 +21,9 @@ export const IG_POSTS: IGPost[] = [
     url: 'https://www.instagram.com/voawsh_asia/reel/DWjPbQmk5mP/',
     date: '31 Mar 2026',
     type: 'Reel',
+    video: 'instagram/reel1.mp4',
+    likes: '12',
+    comments: '0',
     caption: 'Highlight cinematic Reuni SMA 1 Surakarta angkatan 90 di Lorin Solo. Kami siapkan visual bumper megah, dokumentasi multicam, dan video highlight yang bikin momen langka itu terasa lagi.',
   },
   {
@@ -28,6 +31,8 @@ export const IG_POSTS: IGPost[] = [
     url: 'https://www.instagram.com/voawsh_asia/reel/DWgZPyZk7uS/',
     date: '30 Mar 2026',
     type: 'Reel',
+    likes: '0',
+    comments: '0',
     caption: 'POV kerja di balik layar reuni SMA 1 Surakarta: kurasi tiap momen jadi cinematic dengan setup multicam supaya nggak ada momen kangen-kangenan yang kelewat.',
   },
   {
@@ -35,6 +40,9 @@ export const IG_POSTS: IGPost[] = [
     url: 'https://www.instagram.com/voawsh_asia/reel/DWYSVdgE1Xr/',
     date: '27 Mar 2026',
     type: 'Reel',
+    video: 'instagram/reel3.mp4',
+    likes: '0',
+    comments: '1',
     caption: 'Akhirussanah SMP Batik Surakarta: LED videotron, lighting cinematic, Bumper Opening, transisi speech, dan video recap sampai satu ballroom gagal move on.',
   },
   {

@@ -10,7 +10,7 @@ Landing page sewa alat event dan produksi panggung berbasis **Vite + TypeScript*
 - Keranjang sewa dengan jumlah unit & lama hari, lalu kirim ringkasan ke WhatsApp
 - Panel admin tersembunyi untuk kelola alat, portofolio, dan pesanan masuk
 - Upload foto langsung dari perangkat di form admin (tanpa link, otomatis dikompres)
-- Section khusus **Reels** asli `@voawsh_asia` (frame portrait, caption, tanggal, dan tautan ke reel) + tautan Instagram & YouTube difooter
+- Section khusus **Reels** asli `@voawsh_asia` (frame portrait, video diputar langsung tanpa pindah halaman, caption, tanggal, dan tombol postingan di kanan atas) + tautan Instagram & YouTube difooter
 - Logo utama memakai foto profil Instagram `@voawsh_asia` (`public/logo.jpg`), dipakai juga sebagai favicon
 - Semua perubahan data tersimpan di `localStorage` (tanpa backend)
 
@@ -130,4 +130,4 @@ export const SOCIALS = [
 ];
 ```
 
-Galeri Instagram memakai salinan thumbnail 6 postingan terbaru di `public/instagram/` beserta caption aslinya di `IG_POSTS` (`src/data.ts`). Karena Instagram tidak menyediakan feed publik gratis tanpa token, galeri ini **tidak update otomatis** — sesuaikan lagi saat ada postingan baru.
+Galeri Instagram memakai salinan thumbnail 6 postingan terbaru di `public/instagram/` beserta caption aslinya di `IG_POSTS` (`src/data.ts`). Video Reel yang bisa diunduh disimpan sebagai `reel1.mp4` / `reel3.mp4` dan diputar inline lewat `<video controls playsinline>`. Reel dengan audio terproteksi Instagram tidak bisa diunduh publik; kartunya memakai tombol **Tonton di Instagram**. Karena Instagram tidak menyediakan feed publik gratis tanpa token, galeri ini **tidak update otomatis** — sesuaikan lagi saat ada postingan baru.

@@ -91,20 +91,20 @@ export function renderShell() {
         <div class="mt-5 flex items-center justify-center gap-3 text-[11px] text-zinc-500 font-semibold"><span class="w-8 h-px bg-zinc-700"></span>3 REELS TERBARU<span class="w-8 h-px bg-zinc-700"></span></div>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7 justify-items-center">
-        ${D.IG_POSTS.map((p, i) => ({ p, i })).filter((x) => x.p.type === 'Reel').map(({ p, i }) => `<button data-act="ig-detail" data-v="${i}" aria-label="Tonton reel: ${esc(p.caption)}" class="group relative w-full max-w-[340px] text-left bg-white rounded-2xl overflow-hidden shadow-2xl shadow-black/50 ring-1 ring-white/10 hover:ring-amber-400/60 focus:outline-none focus:ring-2 focus:ring-amber-400 transition duration-300">
+        ${D.IG_POSTS.map((p, i) => ({ p, i })).filter((x) => x.p.type === 'Reel').map(({ p, i }) => `<article data-act="ig-detail" data-v="${i}" data-reel-card aria-label="Detail reel: ${esc(p.caption)}" class="group relative w-full max-w-[300px] text-left bg-white rounded-2xl overflow-hidden shadow-2xl shadow-black/50 ring-1 ring-white/10 hover:ring-amber-400/60 cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400 transition duration-300">
           <div class="flex items-center gap-2.5 px-3.5 py-3 border-b border-zinc-100">
             <div class="w-8 h-8 rounded-full p-[2px] bg-gradient-to-tr from-fuchsia-600 via-pink-500 to-orange-400 shrink-0"><img src="${import.meta.env.BASE_URL}logo.jpg" alt="" class="w-full h-full rounded-full object-cover bg-white ring-2 ring-white"></div>
             <div class="min-w-0"><div class="text-[13px] font-extrabold text-zinc-900 leading-tight">voawsh_asia</div><div class="text-[10px] text-zinc-500 truncate">Rental Sound System &amp; VJ Solo</div></div>
-            <i class="fa-solid fa-ellipsis text-zinc-400 ml-auto text-sm"></i>
+            <a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer" data-act="noop" aria-label="Buka postingan asli di Instagram" title="Buka postingan di Instagram" class="ml-auto w-8 h-8 rounded-full bg-zinc-100 hover:bg-amber-500 hover:text-zinc-950 text-zinc-500 flex items-center justify-center transition shrink-0"><i class="fa-solid fa-arrow-up-right-from-square text-xs"></i></a>
           </div>
-          <div class="relative aspect-[4/5] w-full overflow-hidden bg-black">
-            <img src="${import.meta.env.BASE_URL}instagram/${p.file}" alt="${esc(p.caption)}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
-            <span class="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/30 transition"><span class="w-14 h-14 rounded-full bg-white/95 text-zinc-950 flex items-center justify-center text-lg pl-1 shadow-xl opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-110 transition duration-300"><i class="fa-solid fa-play"></i></span></span>
+          <div class="relative aspect-[9/16] w-full overflow-hidden bg-black">
+            <img src="${import.meta.env.BASE_URL}instagram/${p.file}" alt="${esc(p.caption)}" class="reel-poster absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            ${p.video ? `<video data-act="noop" class="reel-video absolute inset-0 w-full h-full object-cover hidden" poster="${import.meta.env.BASE_URL}instagram/${p.file}" preload="none" playsinline controls loop><source src="${import.meta.env.BASE_URL}${p.video}" type="video/mp4"></video><button type="button" data-act="reel-play" data-v="${i}" aria-label="Putar reel" class="reel-play absolute inset-0 z-10 flex items-center justify-center bg-black/0 hover:bg-black/30 transition"><span class="w-14 h-14 rounded-full bg-white/95 text-zinc-950 flex items-center justify-center text-lg pl-1 shadow-xl group-hover:scale-110 transition duration-300"><i class="fa-solid fa-play"></i></span></button>` : `<a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer" data-act="noop" aria-label="Tonton reel di Instagram" class="reel-play absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-black/35 hover:bg-black/50 transition"><span class="w-14 h-14 rounded-full bg-white/95 text-zinc-950 flex items-center justify-center text-lg pl-1 shadow-xl"><i class="fa-solid fa-play"></i></span><span class="px-3 py-1.5 rounded-full bg-zinc-950/80 text-white text-[10px] font-bold"><i class="fa-brands fa-instagram mr-1 text-fuchsia-400"></i>Tonton di Instagram</span></a>`}
           </div>
           <div class="px-3.5 pt-3 pb-4">
             <div class="flex items-center gap-4 text-zinc-900 text-lg">
-              <span class="hover:text-rose-500 transition" title="Suka"><i class="fa-regular fa-heart"></i></span>
-              <span class="hover:text-amber-500 transition" title="Komentar"><i class="fa-regular fa-comment"></i></span>
+              <span class="hover:text-rose-500 transition flex items-center gap-1" title="Suka"><i class="fa-regular fa-heart"></i><span class="text-[11px] font-bold">${esc(p.likes ?? '0')}</span></span>
+              <span class="hover:text-amber-500 transition flex items-center gap-1" title="Komentar"><i class="fa-regular fa-comment"></i><span class="text-[11px] font-bold">${esc(p.comments ?? '0')}</span></span>
               <span class="hover:text-cyan-500 transition" title="Bagikan"><i class="fa-regular fa-paper-plane"></i></span>
               <span class="ml-auto hover:text-amber-500 transition" title="Simpan"><i class="fa-regular fa-bookmark"></i></span>
             </div>
@@ -112,7 +112,7 @@ export function renderShell() {
             <div class="mt-2 text-[10px] font-semibold uppercase tracking-wider text-zinc-400">${esc(p.date)}</div>
           </div>
           <span class="absolute -inset-1 -z-10 rounded-[24px] bg-gradient-to-br from-amber-400/0 via-fuchsia-500/0 to-cyan-400/0 group-hover:from-amber-400/40 group-hover:via-fuchsia-500/30 group-hover:to-cyan-400/40 blur-lg transition duration-300"></span>
-        </button>`).join('')}
+        </article>`).join('')}
       </div>
       <div class="mt-12 text-center">
         <a href="${D.SOCIALS[0].url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-zinc-700 hover:border-fuchsia-400/60 text-sm font-bold text-zinc-200 hover:text-white transition"><i class="fa-brands fa-instagram text-fuchsia-400"></i>Lihat Reels Lainnya <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i></a>
@@ -249,17 +249,22 @@ export function portDetail(id: string) {
 export function igDetail(index: number) {
   const p = D.IG_POSTS[index];
   if (!p) return;
+  document.querySelectorAll<HTMLVideoElement>('.reel-video').forEach((video) => video.pause());
+  const media = p.video
+    ? `<video controls playsinline loop poster="${import.meta.env.BASE_URL}instagram/${p.file}" class="w-full h-full object-cover"><source src="${import.meta.env.BASE_URL}${p.video}" type="video/mp4"></video>`
+    : `<img src="${import.meta.env.BASE_URL}instagram/${p.file}" alt="${esc(p.caption)}" class="w-full h-full object-cover">`;
   openModal(`<div class="bg-darkcard border border-zinc-800 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl">
     <div class="relative h-72 sm:h-96 bg-zinc-900">
-      <img src="${import.meta.env.BASE_URL}instagram/${p.file}" alt="${esc(p.caption)}" class="w-full h-full object-cover">
-      <button data-act="close" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-zinc-950/85 hover:bg-amber-500 hover:text-zinc-950"><i class="fa-solid fa-xmark"></i></button>
+      ${media}
+      <button data-act="close" aria-label="Tutup" class="absolute top-4 left-4 w-9 h-9 rounded-full bg-zinc-950/85 hover:bg-amber-500 hover:text-zinc-950"><i class="fa-solid fa-xmark"></i></button>
+      <a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer" data-act="noop" aria-label="Buka postingan asli di Instagram" title="Buka postingan di Instagram" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-zinc-950/85 hover:bg-amber-500 hover:text-zinc-950 flex items-center justify-center"><i class="fa-solid fa-arrow-up-right-from-square text-sm"></i></a>
       <span class="absolute bottom-4 left-5 px-3 py-1 rounded-full bg-zinc-950/85 border border-zinc-700 text-amber-400 text-xs font-bold"><i class="fa-solid ${p.type === 'Reel' ? 'fa-video' : p.type === 'Carousel' ? 'fa-images' : 'fa-image'} mr-1.5"></i>${p.type} · ${esc(p.date)}</span>
     </div>
     <div class="p-6 space-y-4">
       <div class="text-xs font-bold uppercase tracking-widest text-amber-400">Dokumentasi · ${esc(p.date)}</div>
       <p class="text-sm text-zinc-300 leading-relaxed whitespace-pre-line">${esc(p.caption)}</p>
       <div class="pt-4 border-t border-zinc-800 flex gap-3">
-        <a href="${p.url}" target="_blank" rel="noopener noreferrer" class="flex-1 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-extrabold text-sm text-center">Lihat Postingan Asli <i class="fa-solid fa-arrow-up-right-from-square ml-1.5 text-xs"></i></a>
+        <a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer" class="flex-1 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-extrabold text-sm text-center">Lihat Postingan Asli <i class="fa-solid fa-arrow-up-right-from-square ml-1.5 text-xs"></i></a>
         <button data-act="close" class="py-3 px-5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 text-sm font-bold">Tutup</button></div>
     </div></div>`);
 }
