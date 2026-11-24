@@ -10,7 +10,7 @@ Landing page sewa alat event dan produksi panggung berbasis **Vite + TypeScript*
 - Keranjang sewa dengan jumlah unit & lama hari, lalu kirim ringkasan ke WhatsApp
 - Panel admin tersembunyi untuk kelola alat, portofolio, dan pesanan masuk
 - Upload foto langsung dari perangkat di form admin (tanpa link, otomatis dikompres)
-- Galeri dokumentasi 6 postingan asli `@voawsh_asia` (thumbnail, caption, tanggal, dan tautan ke post) + tautan Instagram & YouTube difooter
+- Galeri dokumentasi khusus **Reels** asli `@voawsh_asia` (thumbnail, caption, tanggal, dan tautan ke post) + tautan Instagram & YouTube difooter
 - Logo utama memakai foto profil Instagram `@voawsh_asia` (`public/logo.jpg`), dipakai juga sebagai favicon
 - Semua perubahan data tersimpan di `localStorage` (tanpa backend)
 

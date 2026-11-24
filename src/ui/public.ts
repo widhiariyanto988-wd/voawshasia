@@ -83,13 +83,14 @@ export function renderShell() {
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-10">
         <span class="text-amber-400 font-bold text-xs uppercase tracking-[0.25em]">Dokumentasi Asli</span>
-        <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold mt-3 text-white">Karya Kami Bicara Sendiri</h2>
-        <p class="text-zinc-400 mt-3 max-w-2xl mx-auto text-sm sm:text-base">Potret langsung dari lapangan — panggung, cahaya, dan momen yang kami wujudkan. Tanpa drama, hanya hasil nyata.</p>
+        <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold mt-3 text-white">Momen Nyata dalam Gerak</h2>
+        <p class="text-zinc-400 mt-3 max-w-2xl mx-auto text-sm sm:text-base">Cuplikan video langsung dari lapangan — panggung, cahaya, dan energi acara yang kami wujudkan.</p>
       </div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-2 sm:gap-4">
-        ${D.IG_POSTS.map((p, i) => `<button data-act="ig-detail" data-v="${i}" aria-label="Lihat detail: ${esc(p.caption)}" class="group relative aspect-square overflow-hidden rounded-2xl bg-darkcard border border-zinc-800 hover:border-amber-400/70 focus:outline-none focus:ring-2 focus:ring-amber-400/60 transition">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
+        ${D.IG_POSTS.map((p, i) => ({ p, i })).filter((x) => x.p.type === 'Reel').map(({ p, i }) => `<button data-act="ig-detail" data-v="${i}" aria-label="Tonton reel: ${esc(p.caption)}" class="group relative aspect-[4/5] overflow-hidden rounded-2xl bg-darkcard border border-zinc-800 hover:border-amber-400/70 focus:outline-none focus:ring-2 focus:ring-amber-400/60 transition">
           <img src="${import.meta.env.BASE_URL}instagram/${p.file}" alt="${esc(p.caption)}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
-          <span class="absolute inset-0 bg-zinc-950/0 group-hover:bg-zinc-950/35 transition flex items-center justify-center"><span class="opacity-0 group-hover:opacity-100 transition text-white text-xs font-bold drop-shadow-lg">Lihat Detail</span></span>
+          <span class="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-zinc-950/85 border border-zinc-700 text-[10px] font-extrabold uppercase tracking-widest text-amber-400">Reel</span>
+          <span class="absolute inset-0 flex items-center justify-center bg-zinc-950/15 group-hover:bg-zinc-950/40 transition"><span class="w-14 h-14 rounded-full bg-white/95 text-zinc-950 flex items-center justify-center text-lg pl-1 shadow-xl group-hover:scale-110 transition"><i class="fa-solid fa-play"></i></span></span>
         </button>`).join('')}
       </div>
       <div class="mt-9 text-center">
