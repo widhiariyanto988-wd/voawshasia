@@ -79,6 +79,47 @@ export function renderShell() {
     <div id="port-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </section>
 
+  <section id="instagram" class="relative py-16 md:py-20 w-full overflow-hidden border-y border-zinc-800/80">
+    <div class="absolute inset-0 bg-gradient-to-br from-fuchsia-950/25 via-zinc-950/70 to-orange-950/10"></div>
+    <div class="absolute -top-24 left-1/4 w-72 h-72 bg-fuchsia-600/10 blur-3xl rounded-full"></div>
+    <div class="absolute -bottom-24 right-1/4 w-72 h-72 bg-amber-500/10 blur-3xl rounded-full"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-9">
+        <div class="flex items-center gap-4">
+          <div class="relative shrink-0">
+            <div class="absolute -inset-1 rounded-full bg-gradient-to-tr from-fuchsia-600 via-pink-500 to-orange-400 blur opacity-75"></div>
+            <img src="${import.meta.env.BASE_URL}instagram/ig-avatar.jpg" alt="Foto profil @voawsh_asia" class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover ring-2 ring-zinc-900">
+          </div>
+          <div><span class="text-fuchsia-400 font-bold text-xs uppercase tracking-widest">Instagram Kami</span>
+            <h2 class="font-display text-2xl sm:text-3xl font-extrabold mt-1">@voawsh_asia</h2>
+            <p class="text-xs sm:text-sm text-zinc-400 mt-1">Rental Sound System &amp; VJ Solo · <span class="text-amber-400">JKT · SOLO · SBY</span></p>
+            <div class="flex flex-wrap gap-x-4 gap-y-1 mt-2 text-[11px] text-zinc-500">
+              <span><strong class="text-zinc-200">6</strong> postingan</span>
+              <span><strong class="text-zinc-200">118</strong> followers</span>
+              <span><strong class="text-zinc-200">17</strong> following</span>
+            </div></div>
+        </div>
+        <a href="${D.SOCIALS[0].url}" target="_blank" rel="noopener noreferrer" class="shrink-0 px-5 py-3 rounded-xl bg-gradient-to-r from-fuchsia-600 via-pink-600 to-orange-500 hover:opacity-90 text-white text-sm font-extrabold flex items-center justify-center gap-2 shadow-lg shadow-fuchsia-500/20"><i class="fa-brands fa-instagram text-lg"></i>Follow @voawsh_asia</a>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
+        ${D.IG_POSTS.map((p, i) => {
+          const ic = p.type === 'Reel' ? 'fa-video' : p.type === 'Carousel' ? 'fa-images' : 'fa-image';
+          return `<button data-act="ig-detail" data-v="${i}" title="${esc(p.caption)}" class="group relative aspect-square overflow-hidden rounded-xl bg-darkcard border border-zinc-800 hover:border-amber-400/60 hover:ring-2 hover:ring-amber-400/20 text-left transition">
+            <img src="${import.meta.env.BASE_URL}instagram/${p.file}" alt="${esc(p.caption)}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+            <span class="absolute top-2 left-2 px-2 py-1 rounded-md bg-zinc-950/85 border border-zinc-700 text-[10px] font-bold text-amber-400 flex items-center gap-1"><i class="fa-solid ${ic}"></i>${p.type}</span>
+            <span class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent flex flex-col justify-end p-3">
+              <span class="text-[10px] text-zinc-300 mb-0.5">${esc(p.date)}</span>
+              <span class="text-[11px] text-white line-clamp-2 leading-snug">${esc(p.caption)}</span>
+              <span class="mt-1.5 text-[10px] font-bold text-amber-400 flex items-center gap-1"><i class="fa-brands fa-instagram"></i>Lihat caption</span>
+            </span></button>`;
+        }).join('')}
+      </div>
+      <div class="mt-6 text-center">
+        <a href="${D.SOCIALS[0].url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-bold text-zinc-400 hover:text-amber-400 transition">Lihat semua postingan di Instagram <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
   <section id="daftar-alat" class="py-16 md:py-24 bg-zinc-950/60 border-y border-zinc-800/80 w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8">
@@ -107,30 +148,6 @@ export function renderShell() {
         <div class="p-6 rounded-2xl bg-darkcard border border-zinc-800 text-center">
           <div class="w-11 h-11 rounded-xl bg-amber-500/15 text-amber-400 font-display font-extrabold text-lg flex items-center justify-center mx-auto mb-4">${i + 1}</div>
           <h3 class="font-bold">${esc(t)}</h3><p class="text-xs text-zinc-400 mt-2 leading-relaxed">${esc(d)}</p></div>`).join('')}</div>
-    </div>
-  </section>
-
-  <section id="instagram" class="py-16 md:py-20 bg-zinc-950/60 border-t border-zinc-800/80 w-full">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-8">
-        <div><span class="text-amber-400 font-bold text-xs uppercase tracking-widest">Instagram Kami</span>
-          <h2 class="font-display text-3xl sm:text-4xl font-extrabold mt-1.5">@voawsh_asia</h2>
-          <p class="text-zinc-400 mt-2 max-w-xl">Dokumentasi acara, keseruan tim, dan hasil kerja terbaru VOAWSHASIA. Ikuti akun resmi kami.</p></div>
-        <a href="${D.SOCIALS[0].url}" target="_blank" rel="noopener noreferrer" class="shrink-0 px-5 py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 via-pink-600 to-orange-500 hover:opacity-90 text-white text-sm font-bold flex items-center justify-center gap-2"><i class="fa-brands fa-instagram text-lg"></i>Follow @voawsh_asia</a>
-      </div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
-        ${D.IG_POSTS.map((p, i) => {
-          const ic = p.type === 'Reel' ? 'fa-video' : p.type === 'Carousel' ? 'fa-images' : 'fa-image';
-          return `<button data-act="ig-detail" data-v="${i}" title="${esc(p.caption)}" class="group relative aspect-square overflow-hidden rounded-xl bg-darkcard border border-zinc-800 text-left">
-            <img src="${import.meta.env.BASE_URL}instagram/${p.file}" alt="${esc(p.caption)}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" loading="lazy">
-            <span class="absolute top-2 left-2 px-2 py-1 rounded-md bg-zinc-950/85 border border-zinc-700 text-[10px] font-bold text-amber-400 flex items-center gap-1"><i class="fa-solid ${ic}"></i>${p.type}</span>
-            <span class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent flex flex-col justify-end p-3">
-              <span class="text-[10px] text-zinc-300 mb-0.5">${esc(p.date)}</span>
-              <span class="text-[11px] text-white line-clamp-2 leading-snug">${esc(p.caption)}</span>
-              <span class="mt-1.5 text-[10px] font-bold text-amber-400 flex items-center gap-1"><i class="fa-brands fa-instagram"></i>Lihat caption</span>
-            </span></button>`;
-        }).join('')}
-      </div>
     </div>
   </section>
 
