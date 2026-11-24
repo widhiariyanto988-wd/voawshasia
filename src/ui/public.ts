@@ -31,7 +31,7 @@ export function renderShell() {
   <header class="sticky top-0 z-40 glass-nav border-b border-zinc-800/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 md:h-20">
       <a href="#top" class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-zinc-950 text-xl"><i class="fa-solid fa-bolt"></i></div>
+        <div class="relative w-10 h-10 shrink-0 rounded-full bg-gradient-to-tr from-fuchsia-600 via-pink-500 to-orange-400 p-[2px] shadow-lg shadow-fuchsia-500/20"><img src="${import.meta.env.BASE_URL}logo.jpg" alt="Logo VOAWSHASIA" class="w-full h-full rounded-full object-cover bg-zinc-950 ring-2 ring-zinc-950"></div>
         <div><span class="font-display font-extrabold text-xl text-white">VOAWSH<span class="text-amber-400">ASIA</span></span>
         <span class="block text-[10px] uppercase tracking-widest text-zinc-400 -mt-1">Production & Rental</span></div>
       </a>
@@ -153,7 +153,7 @@ export function renderShell() {
 
   <footer class="bg-zinc-950 border-t border-zinc-800/80 py-12 mt-auto">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div><div class="flex items-center gap-3 mb-4"><div class="w-9 h-9 rounded-xl bg-amber-500 flex items-center justify-center text-zinc-950"><i class="fa-solid fa-bolt"></i></div><span class="font-display font-extrabold text-lg">VOAWSH<span class="text-amber-400">ASIA</span></span></div>
+      <div><div class="flex items-center gap-3 mb-4"><div class="w-9 h-9 shrink-0 rounded-full bg-gradient-to-tr from-fuchsia-600 via-pink-500 to-orange-400 p-[2px]"><img src="${import.meta.env.BASE_URL}logo.jpg" alt="Logo VOAWSHASIA" class="w-full h-full rounded-full object-cover bg-zinc-950 ring-2 ring-zinc-950"></div><span class="font-display font-extrabold text-lg">VOAWSH<span class="text-amber-400">ASIA</span></span></div>
         <p class="text-zinc-400 text-sm leading-relaxed">Penyedia sewa sound system, lighting, layar LED, dan panggung konser terpercaya dengan kru teknis siap siaga.</p>
         <div class="mt-4 flex items-center gap-2">
           ${D.SOCIALS.map((s) => `<a href="${s.url}" target="_blank" rel="noopener noreferrer" aria-label="${esc(s.label)}" title="${esc(s.label)}" class="w-9 h-9 rounded-lg bg-zinc-900 hover:bg-amber-500 hover:text-zinc-950 border border-zinc-800 flex items-center justify-center transition"><i class="${s.icon}"></i></a>`).join('')}

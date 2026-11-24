@@ -11,6 +11,7 @@ Landing page sewa alat event dan produksi panggung berbasis **Vite + TypeScript*
 - Panel admin tersembunyi untuk kelola alat, portofolio, dan pesanan masuk
 - Upload foto langsung dari perangkat di form admin (tanpa link, otomatis dikompres)
 - Galeri 6 postingan asli `@voawsh_asia` (thumbnail, caption, tanggal, dan tautan ke post) + tautan Instagram & YouTube difooter
+- Logo utama memakai foto profil Instagram `@voawsh_asia` (`public/logo.jpg`), dipakai juga sebagai favicon
 - Semua perubahan data tersimpan di `localStorage` (tanpa backend)
 
 ## Tech stack
