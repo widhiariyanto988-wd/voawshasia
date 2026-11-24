@@ -47,8 +47,8 @@ export function renderShell() {
 
   <section id="top" class="relative overflow-hidden hero-radial pt-16 pb-20 md:pt-24 md:pb-28 border-b border-zinc-800/70">
     <div class="absolute inset-0 -z-10 overflow-hidden">
-      <img src="/hero.jpg" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover blur-2xl scale-110 opacity-30">
-      <img src="/hero.jpg" alt="" class="absolute inset-0 w-full h-full object-contain opacity-60" fetchpriority="high">
+      <img src="${import.meta.env.BASE_URL}hero.jpg" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover blur-2xl scale-110 opacity-30">
+      <img src="${import.meta.env.BASE_URL}hero.jpg" alt="" class="absolute inset-0 w-full h-full object-contain opacity-60" fetchpriority="high">
       <div class="absolute inset-0 bg-gradient-to-t from-darkbg via-darkbg/75 to-transparent"></div>
     </div>
     <div class="max-w-4xl mx-auto px-4 text-center flex flex-col items-center">
