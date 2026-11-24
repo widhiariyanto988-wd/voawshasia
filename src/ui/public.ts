@@ -9,7 +9,7 @@ const NAV: [string, string][] = [
   ['daftar-alat', 'Daftar Alat'],
   ['paket-hemat', 'Paket Hemat'],
   ['cara-sewa', 'Cara Sewa'],
-  ['instagram', 'Dokumentasi'],
+  ['instagram', 'Reels'],
 ];
 
 /** Kerangka halaman public: header, hero, section, dan footer. Dipanggil sekali saat init. */
@@ -79,8 +79,17 @@ export function renderShell() {
     <div id="port-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </section>
 
-  <section id="instagram" class="py-16 md:py-24 w-full bg-zinc-950/40 border-y border-zinc-800/80">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+  <section id="instagram" class="relative py-16 md:py-24 w-full overflow-hidden border-y border-zinc-800/80">
+    <div class="absolute inset-0 bg-gradient-to-b from-zinc-950 via-[#0d0b16] to-zinc-950"></div>
+    <div class="absolute -top-28 left-1/4 w-80 h-80 bg-fuchsia-600/10 blur-3xl rounded-full"></div>
+    <div class="absolute -bottom-28 right-1/4 w-80 h-80 bg-amber-500/10 blur-3xl rounded-full"></div>
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/30 text-fuchsia-400 text-[11px] font-extrabold uppercase tracking-[0.2em]"><i class="fa-solid fa-play"></i>Reels</span>
+        <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold mt-5 text-white">Momen Nyata dalam <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-fuchsia-400 to-cyan-400">Gerak</span></h2>
+        <p class="text-zinc-400 mt-3 max-w-xl mx-auto text-sm sm:text-base">Cuplikan video langsung dari lapangan. Panggung, cahaya, dan energi acara yang kami wujudkan — dalam beberapa detik saja.</p>
+        <div class="mt-5 flex items-center justify-center gap-3 text-[11px] text-zinc-500 font-semibold"><span class="w-8 h-px bg-zinc-700"></span>3 REELS TERBARU<span class="w-8 h-px bg-zinc-700"></span></div>
+      </div>
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-7 justify-items-center">
         ${D.IG_POSTS.map((p, i) => ({ p, i })).filter((x) => x.p.type === 'Reel').map(({ p, i }) => `<button data-act="ig-detail" data-v="${i}" aria-label="Tonton reel: ${esc(p.caption)}" class="group relative w-full max-w-[280px] rounded-[28px] bg-white p-2.5 shadow-2xl shadow-black/50 ring-1 ring-white/10 hover:ring-amber-400/60 focus:outline-none focus:ring-2 focus:ring-amber-400 transition duration-300">
           <div class="relative aspect-[9/16] w-full overflow-hidden rounded-[22px] bg-black">
@@ -89,6 +98,9 @@ export function renderShell() {
           </div>
           <span class="absolute -inset-1 -z-10 rounded-[32px] bg-gradient-to-br from-amber-400/0 via-fuchsia-500/0 to-cyan-400/0 group-hover:from-amber-400/40 group-hover:via-fuchsia-500/30 group-hover:to-cyan-400/40 blur-lg transition duration-300"></span>
         </button>`).join('')}
+      </div>
+      <div class="mt-12 text-center">
+        <a href="${D.SOCIALS[0].url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-zinc-700 hover:border-fuchsia-400/60 text-sm font-bold text-zinc-200 hover:text-white transition"><i class="fa-brands fa-instagram text-fuchsia-400"></i>Lihat Reels Lainnya <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i></a>
       </div>
     </div>
   </section>
