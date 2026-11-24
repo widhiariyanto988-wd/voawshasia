@@ -1,4 +1,4 @@
-import type { Equipment, Portfolio, Inquiry, Pkg } from './types';
+import type { Equipment, Portfolio, Inquiry, Pkg, IGPost } from './types';
 
 /** WA utama untuk semua tombol chat & pesanan: 0881-2814-855 */
 export const WA = '628812814855';
@@ -13,6 +13,51 @@ export const WA_LIST: [string, string][] = [
 export const SOCIALS: { label: string; url: string; icon: string }[] = [
   { label: 'Instagram @voawsh_asia', url: 'https://www.instagram.com/voawsh_asia/', icon: 'fa-brands fa-instagram' },
   { label: 'YouTube @VoawshNetwork', url: 'https://www.youtube.com/@VoawshNetwork', icon: 'fa-brands fa-youtube' },
+];
+/** 6 postingan terbaru @voawsh_asia (thumbnail asli disimpan di public/instagram/). */
+export const IG_POSTS: IGPost[] = [
+  {
+    file: 'ig1.jpg',
+    url: 'https://www.instagram.com/voawsh_asia/reel/DWjPbQmk5mP/',
+    date: '31 Mar 2026',
+    type: 'Reel',
+    caption: 'Highlight cinematic Reuni SMA 1 Surakarta angkatan 90 di Lorin Solo. Kami siapkan visual bumper megah, dokumentasi multicam, dan video highlight yang bikin momen langka itu terasa lagi.',
+  },
+  {
+    file: 'ig2.jpg',
+    url: 'https://www.instagram.com/voawsh_asia/reel/DWgZPyZk7uS/',
+    date: '30 Mar 2026',
+    type: 'Reel',
+    caption: 'POV kerja di balik layar reuni SMA 1 Surakarta: kurasi tiap momen jadi cinematic dengan setup multicam supaya nggak ada momen kangen-kangenan yang kelewat.',
+  },
+  {
+    file: 'ig3.jpg',
+    url: 'https://www.instagram.com/voawsh_asia/reel/DWYSVdgE1Xr/',
+    date: '27 Mar 2026',
+    type: 'Reel',
+    caption: 'Akhirussanah SMP Batik Surakarta: LED videotron, lighting cinematic, Bumper Opening, transisi speech, dan video recap sampai satu ballroom gagal move on.',
+  },
+  {
+    file: 'ig4.jpg',
+    url: 'https://www.instagram.com/voawsh_asia/p/DQD83S1k-Nr/',
+    date: '20 Okt 2025',
+    type: 'Carousel',
+    caption: 'Serangkaian event 12–15 Agustus 2025 di Ballroom Hotel Alana, Taman Atsiri, dan Rasamadu Heritage. Supporting equipment: sound 8000W, lighting, genset, LED 15 m², visual bumper, VJ, dan manpower produksi.',
+  },
+  {
+    file: 'ig5.jpg',
+    url: 'https://www.instagram.com/voawsh_asia/p/C8pOpr9SDil/',
+    date: '25 Jun 2024',
+    type: 'Foto',
+    caption: 'Dokumentasi acara bersama Voawsh Asia — production & rental sound system, lighting, dan multimedia.',
+  },
+  {
+    file: 'ig6.jpg',
+    url: 'https://www.instagram.com/voawsh_asia/p/C8oSN_ASVcv/',
+    date: '24 Jun 2024',
+    type: 'Foto',
+    caption: 'Broadcast multicamera for Bank Indonesia, dihadiri Gubernur Bank Indonesia di Alila Hotel Solo. System: LED + multicamera.',
+  },
 ];
 export const ADMIN_PASS = 'Bismillah2026';
 export const EQ_CATS = ['Sound System', 'Lighting', 'Layar LED', 'Panggung', 'Multimedia'];

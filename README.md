@@ -10,7 +10,7 @@ Landing page sewa alat event dan produksi panggung berbasis **Vite + TypeScript*
 - Keranjang sewa dengan jumlah unit & lama hari, lalu kirim ringkasan ke WhatsApp
 - Panel admin tersembunyi untuk kelola alat, portofolio, dan pesanan masuk
 - Upload foto langsung dari perangkat di form admin (tanpa link, otomatis dikompres)
-- Galeri Instagram + tautan Instagram & YouTube di footer
+- Galeri 6 postingan asli `@voawsh_asia` (thumbnail, caption, tanggal, dan tautan ke post) + tautan Instagram & YouTube difooter
 - Semua perubahan data tersimpan di `localStorage` (tanpa backend)
 
 ## Tech stack
@@ -128,3 +128,5 @@ export const SOCIALS = [
   { label: 'YouTube @VoawshNetwork', url: 'https://www.youtube.com/@VoawshNetwork', icon: 'fa-brands fa-youtube' },
 ];
 ```
+
+Galeri Instagram memakai salinan thumbnail 6 postingan terbaru di `public/instagram/` beserta caption aslinya di `IG_POSTS` (`src/data.ts`). Karena Instagram tidak menyediakan feed publik gratis tanpa token, galeri ini **tidak update otomatis** — sesuaikan lagi saat ada postingan baru.

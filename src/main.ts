@@ -5,7 +5,7 @@ import { resetData, save, state } from './store';
 import { compressImage } from './lib/image';
 import { eqForm, loginModal, ptForm, renderAdmin, val } from './ui/admin';
 import { addCart, openDrawer, order, renderDrawer, updateBadge } from './ui/cart';
-import { portDetail, renderCatalog, renderPortfolio, renderPublic, renderShell } from './ui/public';
+import { igDetail, portDetail, renderCatalog, renderPortfolio, renderPublic, renderShell } from './ui/public';
 import { $, closeDrawer, closeModal, toast } from './ui/shared';
 
 /** Ganti antara halaman public dan panel admin. */
@@ -52,6 +52,9 @@ document.addEventListener('click', (ev) => {
       break;
     case 'port-detail':
       portDetail(id);
+      break;
+    case 'ig-detail':
+      igDetail(Number(v));
       break;
     case 'add': {
       const e = state.equipment.find((x) => x.id === id);
