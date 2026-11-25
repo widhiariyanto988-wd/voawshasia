@@ -50,16 +50,41 @@ export function renderAdmin() {
       ${stat('PORTOFOLIO', state.portfolio.length + ' Acara', 'Ditampilkan ke pengunjung', 'text-white')}
       ${stat('PESANAN MASUK', state.inquiries.length + ' Pesanan', 'Dari keranjang sewa web', 'text-amber-400')}</div>`;
 
-  if (state.adminTab === 'equipment')
+  if (state.adminTab === 'equipment') {
+    const groups = D.EQUIPMENT_CATEGORIES.map((cat) => ({
+      name: cat.name,
+      icon: cat.icon,
+      items: state.equipment.filter((e) => e.category === cat.name),
+    }));
+    const others = state.equipment.filter((e) => !D.EQ_CATS.includes(e.category));
+    if (others.length) groups.push({ name: 'Lainnya', icon: 'fa-box', items: others });
+
     body = `<div class="flex justify-end"><button data-act="eq-form" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-extrabold text-sm"><i class="fa-solid fa-plus mr-2"></i>Tambah Alat Baru</button></div>
-    <div class="rounded-2xl bg-darkcard border border-zinc-800 overflow-x-auto"><table class="w-full text-left text-sm"><thead><tr class="border-b border-zinc-800 text-xs uppercase text-zinc-400 bg-zinc-900/50"><th class="p-4">Alat</th><th class="p-4">Kategori</th><th class="p-4">Harga/Hari</th><th class="p-4">Status</th><th class="p-4 text-right">Aksi</th></tr></thead>
-    <tbody class="divide-y divide-zinc-800/80">${state.equipment.map((e) => `<tr class="hover:bg-zinc-900/40">
-      <td class="p-4"><div class="flex items-center gap-3">${img(e.image, e.category, 'w-11 h-11 rounded-xl object-cover')}<div><div class="font-bold">${esc(e.name)}</div><div class="text-xs text-zinc-400 line-clamp-1 max-w-xs">${esc(e.specs)}</div></div></div></td>
-      <td class="p-4"><span class="px-2.5 py-1 rounded-lg bg-zinc-800 text-xs">${esc(e.category)}</span></td>
-      <td class="p-4 font-bold text-amber-400 whitespace-nowrap">${rp(e.price)}</td>
-      <td class="p-4"><button data-act="eq-cycle" data-id="${e.id}" title="Klik untuk ubah" class="px-3 py-1.5 rounded-full text-xs font-extrabold border ${statusCls(e.status)}">${e.status}</button></td>
-      <td class="p-4 text-right whitespace-nowrap space-x-1"><button data-act="eq-form" data-id="${e.id}" class="p-2 rounded-lg bg-zinc-800 hover:bg-cyan-500 hover:text-zinc-950"><i class="fa-solid fa-pen"></i></button>
-        <button data-act="eq-del" data-id="${e.id}" class="p-2 rounded-lg bg-zinc-800 hover:bg-rose-500"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('')}</tbody></table></div>`;
+    <div class="space-y-6">${groups
+      .map(
+        (g) => `<section class="rounded-2xl bg-darkcard border border-zinc-800 overflow-hidden">
+        <div class="flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-b border-zinc-800 bg-zinc-900/50">
+          <div class="flex items-center gap-3"><span class="w-9 h-9 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-400 flex items-center justify-center"><i class="fa-solid ${g.icon}"></i></span>
+            <div><h3 class="font-display font-bold">${esc(g.name)}</h3><p class="text-[11px] text-zinc-500">${g.items.length} alat terdaftar</p></div></div>
+          <button data-act="eq-form" data-cat="${esc(g.name)}" class="px-3 py-2 rounded-lg bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 text-xs font-bold"><i class="fa-solid fa-plus mr-1.5"></i>Tambah di ${esc(g.name)}</button></div>
+        ${
+          g.items.length
+            ? `<div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead><tr class="border-b border-zinc-800 text-xs uppercase text-zinc-400 bg-zinc-900/30"><th class="p-4">Alat</th><th class="p-4">Harga/Hari</th><th class="p-4">Stok</th><th class="p-4">Status</th><th class="p-4 text-right">Aksi</th></tr></thead>
+              <tbody class="divide-y divide-zinc-800/80">${g.items
+                .map(
+                  (e) => `<tr class="hover:bg-zinc-900/40">
+                <td class="p-4"><div class="flex items-center gap-3">${img(e.image, e.category, 'w-11 h-11 rounded-xl object-cover')}<div><div class="font-bold">${esc(e.name)}</div><div class="text-xs text-zinc-400 line-clamp-1 max-w-xs">${esc(e.specs)}</div></div></div></td>
+                <td class="p-4 font-bold text-amber-400 whitespace-nowrap">${rp(e.price)}</td>
+                <td class="p-4 text-zinc-300 whitespace-nowrap">${Number(e.stock || 0)} unit</td>
+                <td class="p-4"><button data-act="eq-cycle" data-id="${e.id}" title="Klik untuk ubah" class="px-3 py-1.5 rounded-full text-xs font-extrabold border ${statusCls(e.status)}">${e.status}</button></td>
+                <td class="p-4 text-right whitespace-nowrap space-x-1"><button data-act="eq-form" data-id="${e.id}" class="p-2 rounded-lg bg-zinc-800 hover:bg-cyan-500 hover:text-zinc-950"><i class="fa-solid fa-pen"></i></button>
+                  <button data-act="eq-del" data-id="${e.id}" class="p-2 rounded-lg bg-zinc-800 hover:bg-rose-500"><i class="fa-solid fa-trash"></i></button></td></tr>`,
+                )
+                .join('')}</tbody></table></div>`
+            : '<div class="p-6 text-center text-xs text-zinc-500">Belum ada alat di kategori ini.</div>'}</section>`,
+      )
+      .join('')}</div>`;
+  }
 
   if (state.adminTab === 'portfolio')
     body = `<div class="flex justify-end"><button data-act="pt-form" class="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-zinc-950 font-extrabold text-sm"><i class="fa-solid fa-plus mr-2"></i>Tambah Portofolio</button></div>
@@ -161,11 +186,11 @@ const formShell = (title: string, kind: string, id: string, inner: string) =>
     ${inner}<div class="flex justify-end gap-3 pt-4 border-t border-zinc-800"><button type="button" data-act="close" class="px-4 py-2.5 rounded-xl bg-zinc-900 text-zinc-300 text-sm font-semibold">Batal</button><button class="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-extrabold text-sm">Simpan</button></div></form>`;
 
 /** Form tambah/edit peralatan. */
-export function eqForm(id?: string) {
+export function eqForm(id?: string, presetCat?: string) {
   const e: Equipment = state.equipment.find((x) => x.id === id) ?? {
     id: '',
     name: '',
-    category: D.EQ_CATS[0],
+    category: presetCat && D.EQ_CATS.includes(presetCat) ? presetCat : D.EQ_CATS[0],
     specs: '',
     price: 0,
     stock: 4,

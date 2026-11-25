@@ -154,7 +154,7 @@ document.addEventListener('click', (ev) => {
       }
       break;
     case 'eq-form':
-      eqForm(id || undefined);
+      eqForm(id || undefined, el.dataset.cat);
       break;
     case 'pt-form':
       ptForm(id || undefined);
