@@ -26,8 +26,9 @@ const CATEGORY_ALIASES: Record<string, string> = {
 
 /** Satu-satunya sumber state aplikasi. Semua perubahan lewat modul ini. */
 export const state = {
-  equipment: load<Equipment[]>(STORAGE.equipment, D.DEFAULT_EQUIPMENT).map((e) => ({
+  equipment: load<Equipment[]>(STORAGE.equipment, D.DEFAULT_EQUIPMENT).map((e): Equipment => ({
     ...e,
+    fit: e.fit || ('cover' as const),
     category: CATEGORY_ALIASES[e.category] || e.category,
   })),
   portfolio: load<Portfolio[]>(STORAGE.portfolio, D.DEFAULT_PORTFOLIO),

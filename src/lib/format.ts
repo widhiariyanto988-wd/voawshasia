@@ -1,4 +1,5 @@
 import * as D from '../data';
+import type { ImageFit } from '../types';
 
 /** Format angka ke rupiah, contoh: 850000 -> "Rp 850.000". */
 export const rp = (n: number) => 'Rp ' + Number(n).toLocaleString('id-ID');
@@ -29,6 +30,17 @@ export const phoneLabel = (raw: string) => {
   return ['+62', [rest.slice(0, 4), rest.slice(4, 8), rest.slice(8)].filter(Boolean).join('-')].join(' ');
 };
 
+/** Kelas object-fit yang dipakai foto alat (default: cover). */
+export const fitCls = (fit: ImageFit = 'cover') =>
+  ({ cover: 'object-cover', contain: 'object-contain', fill: 'object-fill' })[fit];
+
 /** Tag img dengan fallback otomatis saat gambar gagal dimuat. */
-export const img = (src: string, cat: string, cls: string) =>
-  `<img src="${esc(src)}" alt="" class="${cls}" onerror="this.onerror=null;this.src='${D.FALLBACK[cat] ?? ''}'">`;
+export const img = (src: string, cat: string, cls: string, fit?: ImageFit) => {
+  const withFit = fit
+    ? /\bobject-(cover|contain|fill)\b/.test(cls)
+      ? cls.replace(/\bobject-(cover|contain|fill)\b/g, fitCls(fit))
+      : `${cls} ${fitCls(fit)}`
+    : cls;
+  const style = fit ? ` style="object-fit:${fit}"` : '';
+  return `<img src="${esc(src)}" alt="" class="${withFit}"${style} onerror="this.onerror=null;this.src='${D.FALLBACK[cat] ?? ''}'">`;
+};

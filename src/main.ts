@@ -1,6 +1,6 @@
 import './style.css';
 import * as D from './data';
-import type { Equipment, Portfolio, Status } from './types';
+import type { Equipment, ImageFit, Portfolio, Status } from './types';
 import { resetData, save, state } from './store';
 import { compressImage } from './lib/image';
 import { eqForm, inqForm, invoiceModal, loginModal, ptForm, renderAdmin, val } from './ui/admin';
@@ -237,6 +237,8 @@ document.addEventListener('submit', (ev) => {
 
   if (kind === 'eq') {
     const category = val('f-cat');
+    const chosenFit = val('f-fit');
+    const fit: ImageFit = (['cover', 'contain', 'fill'] as string[]).includes(chosenFit) ? (chosenFit as ImageFit) : 'cover';
     const equipment: Equipment = {
       id: id || 'eq-' + Date.now(),
       name: val('f-name'),
@@ -246,6 +248,7 @@ document.addEventListener('submit', (ev) => {
       stock: Number(val('f-stock')),
       specs: val('f-specs'),
       image: val('f-img') || D.FALLBACK[category],
+      fit,
     };
     const index = state.equipment.findIndex((x) => x.id === id);
     if (index >= 0) state.equipment[index] = equipment;
@@ -295,6 +298,16 @@ document.addEventListener('change', async (ev) => {
       save();
       renderAdmin();
       toast(`Status pesanan diubah menjadi ${q.status}.`);
+    }
+    return;
+  }
+  if (input?.id === 'f-fit') {
+    const preview = document.getElementById('f-preview') as HTMLImageElement | null;
+    const fit = (['cover', 'contain', 'fill'] as string[]).includes(input.value) ? input.value : 'cover';
+    if (preview) {
+      preview.classList.remove('object-cover', 'object-contain', 'object-fill');
+      preview.classList.add(`object-${fit}`);
+      preview.style.objectFit = fit;
     }
     return;
   }

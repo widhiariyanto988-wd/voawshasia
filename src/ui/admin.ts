@@ -1,7 +1,7 @@
-import type { Equipment, Inquiry, InquiryStatus, Portfolio } from '../types';
+import type { Equipment, ImageFit, Inquiry, InquiryStatus, Portfolio } from '../types';
 import * as D from '../data';
 import { save, state } from '../store';
-import { esc, img, phoneLabel, rp } from '../lib/format';
+import { esc, fitCls, img, phoneLabel, rp } from '../lib/format';
 import { PHOTO_INPUT_MAX_MB } from '../lib/image';
 import { $, openModal, statusCls } from './shared';
 
@@ -73,7 +73,7 @@ export function renderAdmin() {
               <tbody class="divide-y divide-zinc-800/80">${g.items
                 .map(
                   (e) => `<tr class="hover:bg-zinc-900/40">
-                <td class="p-4"><div class="flex items-center gap-3">${img(e.image, e.category, 'w-11 h-11 rounded-xl object-cover')}<div><div class="font-bold">${esc(e.name)}</div><div class="text-xs text-zinc-400 line-clamp-1 max-w-xs">${esc(e.specs)}</div></div></div></td>
+                <td class="p-4"><div class="flex items-center gap-3">${img(e.image, e.category, 'w-11 h-11 rounded-xl object-cover', e.fit)}<div><div class="font-bold">${esc(e.name)}</div><div class="text-xs text-zinc-400 line-clamp-1 max-w-xs">${esc(e.specs)}</div></div></div></td>
                 <td class="p-4 font-bold text-amber-400 whitespace-nowrap">${rp(e.price)}</td>
                 <td class="p-4 text-zinc-300 whitespace-nowrap">${Number(e.stock || 0)} unit</td>
                 <td class="p-4"><button data-act="eq-cycle" data-id="${e.id}" title="Klik untuk ubah" class="px-3 py-1.5 rounded-full text-xs font-extrabold border ${statusCls(e.status)}">${e.status}</button></td>
@@ -164,17 +164,36 @@ const field = (id: string, label: string, val: string | number, type = 'text', p
 const select = (id: string, label: string, opts: string[], val: string) =>
   `<div><label class="block text-xs font-semibold text-zinc-400 mb-1">${label}</label><select id="${id}" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-sm">${opts.map((o) => `<option ${o === val ? 'selected' : ''}>${esc(o)}</option>`).join('')}</select></div>`;
 
+/** Opsi tampilan foto alat: cover memotong, contain/fit memperlihatkan seluruh foto. */
+const PHOTO_FITS: { value: ImageFit; label: string }[] = [
+  { value: 'cover', label: 'Cover — isi kotak (bisa terpotong)' },
+  { value: 'contain', label: 'Fit — seluruh foto terlihat' },
+  { value: 'fill', label: 'Fill — penuh kotak (diregangkan)' },
+];
+
 /** Input upload foto dengan pratinjau. Hasil kompresi disimpan di input hidden f-img. */
-const photoField = (current: string, category: string) => {
+const photoField = (current: string, category: string, fit?: ImageFit) => {
   const src = current || D.FALLBACK[category] || '';
+  const active = fit || 'cover';
+  const fitOption = fit
+    ? `<div><label for="f-fit" class="block text-xs font-semibold text-zinc-400 mb-1">Ukuran Tampilan Foto</label>
+        <select id="f-fit" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-sm focus:outline-none focus:border-amber-500">
+          ${PHOTO_FITS.map((o) => `<option value="${o.value}" ${o.value === active ? 'selected' : ''}>${o.label}</option>`).join('')}
+        </select>
+        <p class="text-[11px] text-zinc-500 mt-1">Pratinjau langsung berubah. Pilih <b class="text-zinc-300">Fit</b> agar foto tidak terpotong.</p></div>`
+    : '';
   return `<div>
     <label class="block text-xs font-semibold text-zinc-400 mb-1.5">Foto ${current ? '(klik ganti)' : '(opsional)'}</label>
-    <img id="f-preview" src="${esc(src)}" alt="Pratinjau foto" class="w-full h-40 object-cover rounded-xl border border-zinc-800 bg-zinc-900 mb-2">
+    <div class="relative h-40 rounded-xl overflow-hidden border border-zinc-800 bg-zinc-950 mb-2">
+      <img id="f-preview" src="${esc(src)}" alt="Pratinjau foto" class="w-full h-full ${fitCls(active)}" style="object-fit:${active}">
+      <span class="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-zinc-950/85 text-[10px] font-bold text-amber-400 border border-zinc-700">PRATINJAU</span>
+    </div>
     <div class="flex flex-wrap items-center gap-2">
       <label for="f-file" class="cursor-pointer px-3.5 py-2 rounded-lg bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 text-xs font-bold"><i class="fa-solid fa-upload mr-1.5"></i>Pilih Foto</label>
       <input id="f-file" type="file" accept="image/*" class="hidden">
       <button type="button" data-act="photo-clear" class="px-3 py-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-400 text-xs font-bold"><i class="fa-solid fa-trash mr-1"></i>Hapus</button>
     </div>
+    ${fitOption}
     <input id="f-img" type="hidden" value="${esc(current)}">
     <p class="text-[11px] text-zinc-500 mt-2">Maks. ${PHOTO_INPUT_MAX_MB} MB saat dipilih · otomatis dikompres ke ±700 KB.</p>
   </div>`;
@@ -196,6 +215,7 @@ export function eqForm(id?: string, presetCat?: string) {
     stock: 4,
     status: 'Ready',
     image: '',
+    fit: 'cover',
   };
   openModal(
     formShell(
@@ -206,7 +226,7 @@ export function eqForm(id?: string, presetCat?: string) {
         `<div class="grid sm:grid-cols-2 gap-4">${select('f-cat', 'Kategori *', D.EQ_CATS, e.category)}${select('f-status', 'Status Stok *', ['Ready', 'Stok Terbatas', 'Habis'], e.status)}</div>` +
         `<div class="grid sm:grid-cols-2 gap-4">${field('f-price', 'Harga Sewa / Hari (Rp) *', e.price || '', 'number', '500000', 'required min="0" step="25000"')}${field('f-stock', 'Jumlah Unit *', e.stock, 'number', '8', 'required min="0"')}</div>` +
         field('f-specs', 'Spesifikasi Singkat *', e.specs, 'text', 'Daya 1400W, suara jernih', 'required') +
-        photoField(e.image, e.category),
+        photoField(e.image, e.category, e.fit),
     ),
   );
 }

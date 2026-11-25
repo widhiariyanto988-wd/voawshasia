@@ -227,7 +227,7 @@ export function renderCatalog() {
           const ok = e.status !== 'Habis';
           return `<div class="rounded-2xl bg-darkcard border border-zinc-800 hover:border-zinc-700 overflow-hidden flex flex-col justify-between group">
       <div><div class="relative h-48 overflow-hidden bg-zinc-900">
-        ${img(e.image, e.category, `w-full h-full object-cover group-hover:scale-105 transition duration-500 ${ok ? '' : 'opacity-45 grayscale'}`)}
+        ${img(e.image, e.category, `w-full h-full object-cover group-hover:scale-105 transition duration-500 ${ok ? '' : 'opacity-45 grayscale'}`, e.fit)}
         <span class="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-zinc-950/85 text-[11px] font-semibold text-zinc-300 border border-zinc-800">${esc(e.category)}</span>
         <span class="absolute top-3 right-3 px-2.5 py-1 rounded-lg border text-[11px] font-extrabold ${statusCls(e.status)}">${e.status}</span></div>
       <div class="p-5"><h3 class="font-display font-bold text-base line-clamp-1" title="${esc(e.name)}">${esc(e.name)}</h3><p class="text-xs text-zinc-400 mt-1.5 line-clamp-1">${esc(e.specs)}</p></div></div>
