@@ -46,8 +46,17 @@ document.addEventListener('click', (ev) => {
       state.portCat = v;
       renderPortfolio();
       break;
-    case 'cat-filter':
+    case 'cat-open':
       state.eqCat = v;
+      state.search = '';
+      state.catalogOpen = true;
+      renderCatalog();
+      $('#daftar-alat').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      break;
+    case 'cat-back':
+      state.catalogOpen = false;
+      state.eqCat = 'Semua';
+      state.search = '';
       renderCatalog();
       break;
     case 'port-detail':

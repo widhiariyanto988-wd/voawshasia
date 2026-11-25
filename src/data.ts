@@ -69,13 +69,24 @@ export const IG_POSTS: IGPost[] = [
   },
 ];
 export const ADMIN_PASS = 'Bismillah2026';
-export const EQ_CATS = ['Sound System', 'Lighting', 'Layar LED', 'Panggung', 'Multimedia'];
+export const EQ_CATS = ['Sound System', 'Lighting', 'LED & Screen', 'Multimedia', 'Panggung & Rigging'];
 export const PORT_CATS = ['Konser & Musik', 'Wedding', 'Acara Kantor', 'Pameran'];
 
 const U = (id: string, w = 800) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=80`;
+const local = (file: string) => `${import.meta.env.BASE_URL}${file}`;
+
+/** Kartu kategori yang tampil lebih dulu di Daftar Alat Rental. */
+export const EQUIPMENT_CATEGORIES: { name: string; desc: string; icon: string; image: string }[] = [
+  { name: 'Sound System', desc: 'Speaker, mixer, dan audio konser', icon: 'fa-volume-high', image: local('categories/sound.jpg') },
+  { name: 'Lighting', desc: 'Moving head, PAR LED, follow spot', icon: 'fa-lightbulb', image: U('1504509546545-e000b4a62425', 900) },
+  { name: 'LED & Screen', desc: 'Videotron indoor & outdoor', icon: 'fa-display', image: U('1540575467063-178a50c2df87', 900) },
+  { name: 'Multimedia', desc: 'Kamera, switcher, dan streaming', icon: 'fa-video', image: U('1516035069371-29a1b244cc32', 900) },
+  { name: 'Panggung & Rigging', desc: 'Rangka panggung, atap, dan barikade', icon: 'fa-archway', image: U('1501281668745-f7f57925c3b4', 900) },
+];
+
 export const FALLBACK: Record<string, string> = {
-  'Sound System': U('1520523839897-bd0b52f945a0'), 'Lighting': U('1504509546545-e000b4a62425'),
-  'Layar LED': U('1540575467063-178a50c2df87'), 'Panggung': U('1501281668745-f7f57925c3b4'),
+  'Sound System': local('categories/sound.jpg'), 'Lighting': U('1504509546545-e000b4a62425'),
+  'LED & Screen': U('1540575467063-178a50c2df87'), 'Panggung & Rigging': U('1501281668745-f7f57925c3b4'),
   'Multimedia': U('1516035069371-29a1b244cc32'), 'Konser & Musik': U('1459749411175-04bf5292ceea', 1000),
   'Wedding': U('1519167758481-83f550bb49b3', 1000), 'Acara Kantor': U('1505373877841-8d25f7d46678', 1000),
   'Pameran': U('1511578314322-379afb476865', 1000),
@@ -85,8 +96,8 @@ export const DEFAULT_EQUIPMENT: Equipment[] = [
   { id: 'eq-1', name: 'Speaker Line Array RCF HDL 20-A', category: 'Sound System', specs: 'Speaker gantung 1400W, jernih untuk konser & lapangan', price: 850000, stock: 16, status: 'Ready', image: FALLBACK['Sound System'] },
   { id: 'eq-2', name: 'Mixer Digital Midas M32 Live', category: 'Sound System', specs: '40 channel input, standar konser', price: 1650000, stock: 4, status: 'Ready', image: U('1598488035139-bdbb2231ce04') },
   { id: 'eq-3', name: 'Lampu Moving Head Beam 230W', category: 'Lighting', specs: 'Sorot tajam jarak jauh, 14 warna + prisma', price: 350000, stock: 24, status: 'Ready', image: FALLBACK['Lighting'] },
-  { id: 'eq-4', name: 'Layar LED Videotron P3.9 (Per m²)', category: 'Layar LED', specs: 'Tajam anti silau, indoor & outdoor', price: 750000, stock: 40, status: 'Ready', image: FALLBACK['Layar LED'] },
-  { id: 'eq-5', name: 'Panggung Rigging Aluminium 8x6m', category: 'Panggung', specs: 'Rangka kokoh tinggi 6m, atap terpal & karpet', price: 6000000, stock: 2, status: 'Stok Terbatas', image: FALLBACK['Panggung'] },
+  { id: 'eq-4', name: 'Layar LED Videotron P3.9 (Per m²)', category: 'LED & Screen', specs: 'Tajam anti silau, indoor & outdoor', price: 750000, stock: 40, status: 'Ready', image: FALLBACK['LED & Screen'] },
+  { id: 'eq-5', name: 'Panggung Rigging Aluminium 8x6m', category: 'Panggung & Rigging', specs: 'Rangka kokoh tinggi 6m, atap terpal & karpet', price: 6000000, stock: 2, status: 'Stok Terbatas', image: FALLBACK['Panggung & Rigging'] },
   { id: 'eq-6', name: 'Lampu Par LED 54x3W RGBW', category: 'Lighting', specs: 'Warna-warni & warm white untuk dekorasi', price: 125000, stock: 32, status: 'Ready', image: U('1514525253161-7a46d19cd819') },
   { id: 'eq-7', name: 'Paket Kamera Live Streaming & Switcher', category: 'Multimedia', specs: '2 Kamera Full HD + Video Switcher', price: 2500000, stock: 3, status: 'Ready', image: FALLBACK['Multimedia'] },
   { id: 'eq-8', name: 'Lampu Follow Spot LED 350W', category: 'Lighting', specs: 'Sorot manual mengikuti pengantin / bintang tamu', price: 650000, stock: 0, status: 'Habis', image: U('1492684223066-81342ee5ff30') },

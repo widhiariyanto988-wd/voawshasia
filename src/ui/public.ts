@@ -122,15 +122,18 @@ export function renderShell() {
 
   <section id="daftar-alat" class="py-16 md:py-24 bg-zinc-950/60 border-y border-zinc-800/80 w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8">
-        <div><span class="text-cyan-400 font-bold text-xs uppercase tracking-widest">Katalog Sewa</span>
-          <h2 class="font-display text-3xl sm:text-4xl font-extrabold mt-1.5">Daftar Alat Rental</h2>
-          <p class="text-zinc-400 mt-2 max-w-xl">Cek stok dan harga sewa per hari. Klik tombol sewa untuk menghitung total biaya.</p></div>
-        <div class="relative w-full lg:w-80"><i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 text-sm"></i>
-          <input id="search" placeholder="Cari speaker, lampu, LED..." class="w-full pl-11 pr-4 py-3 rounded-xl bg-darkcard border border-zinc-800 text-sm focus:outline-none focus:border-amber-500"></div>
+      <div class="mb-8"><span class="text-cyan-400 font-bold text-xs uppercase tracking-widest">Katalog Sewa</span>
+        <h2 class="font-display text-3xl sm:text-4xl font-extrabold mt-1.5">Daftar Alat Rental</h2>
+        <p class="text-zinc-400 mt-2 max-w-2xl">Pilih kategori untuk melihat alat, stok, dan harga sewa per hari. Klik tombol sewa untuk langsung memesan.</p></div>
+      <div id="cat-landing" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5"></div>
+      <div id="cat-results" class="hidden space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <button data-act="cat-back" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-xs font-bold text-zinc-300 hover:text-white"><i class="fa-solid fa-arrow-left text-amber-400"></i>Semua Kategori</button>
+          <div class="relative w-full sm:w-80"><i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 text-sm"></i>
+            <input id="search" placeholder="Cari alat di kategori ini..." class="w-full pl-11 pr-4 py-3 rounded-xl bg-darkcard border border-zinc-800 text-sm focus:outline-none focus:border-amber-500"></div></div>
+        <div id="cat-heading"></div>
+        <div id="cat-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
       </div>
-      <div id="cat-filters" class="flex overflow-x-auto pb-2 mb-8 gap-2"></div>
-      <div id="cat-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
     </div>
   </section>
 
@@ -192,13 +195,34 @@ export function renderPortfolio() {
     : '<div class="col-span-full text-center py-12 text-zinc-500 bg-darkcard rounded-2xl border border-zinc-800">Belum ada foto acara di kategori ini.</div>';
 }
 
-/** Render katalog alat, filter kategori, dan pencarian. */
+/** Render kartu kategori, lalu katalog dari kategori yang dipilih. */
 export function renderCatalog() {
-  $('#cat-filters').innerHTML = ['Semua', ...D.EQ_CATS].map((c) => chip(c === state.eqCat, 'cat-filter', c, c)).join('');
   const units = state.equipment.filter((e) => e.status !== 'Habis').reduce((a, e) => a + Number(e.stock || 0), 0);
   $('#hero-units').textContent = units + '+';
+
+  $('#cat-landing').innerHTML = D.EQUIPMENT_CATEGORIES.map((cat) => {
+    const items = state.equipment.filter((e) => e.category === cat.name);
+    const ready = items.filter((e) => e.status !== 'Habis').length;
+    return `<button data-act="cat-open" data-v="${esc(cat.name)}" class="group relative h-60 sm:h-64 rounded-2xl overflow-hidden border border-zinc-800 bg-darkcard text-left hover:border-amber-500/70 transition">
+      ${img(cat.image, cat.name, 'absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-500')}
+      <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/65 to-zinc-950/10"></div>
+      <div class="absolute top-4 left-4 w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-400 flex items-center justify-center"><i class="fa-solid ${cat.icon}"></i></div>
+      <div class="absolute inset-x-0 bottom-0 p-4 sm:p-5"><h3 class="font-display font-extrabold text-base sm:text-lg">${esc(cat.name)}</h3>
+        <p class="text-[11px] text-zinc-300 mt-0.5 line-clamp-1">${esc(cat.desc)}</p>
+        <div class="flex items-center justify-between mt-3"><span class="text-[10px] font-bold px-2 py-1 rounded-full bg-zinc-950/80 border border-zinc-700 text-zinc-300">${ready} alat siap</span>
+          <span class="inline-flex items-center gap-1.5 text-[11px] font-extrabold text-amber-400">Lihat Katalog <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i></span></div></div></button>`;
+  }).join('');
+
+  $('#cat-landing').classList.toggle('hidden', state.catalogOpen);
+  $('#cat-results').classList.toggle('hidden', !state.catalogOpen);
+  if (!state.catalogOpen) return;
+
   const q = state.search.toLowerCase();
-  const list = state.equipment.filter((e) => (state.eqCat === 'Semua' || e.category === state.eqCat) && (e.name + e.specs).toLowerCase().includes(q));
+  const list = state.equipment.filter((e) => e.category === state.eqCat && (e.name + e.specs).toLowerCase().includes(q));
+  const cat = D.EQUIPMENT_CATEGORIES.find((c) => c.name === state.eqCat);
+  $('#cat-heading').innerHTML = `<div><h3 class="font-display text-xl sm:text-2xl font-extrabold flex items-center gap-2.5"><i class="fa-solid ${cat?.icon ?? 'fa-box'} text-amber-400"></i>${esc(state.eqCat)}</h3>
+    <p class="text-xs text-zinc-400 mt-1">${list.length} alat ditemukan · harga sewa per hari, bisa langsung dimasukkan keranjang.</p></div>`;
+
   $('#cat-grid').innerHTML = list.length
     ? list
         .map((e) => {

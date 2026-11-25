@@ -18,9 +18,18 @@ const load = <T,>(key: string, fallback: T): T => {
   }
 };
 
+/** Nama kategori lama yang sudah diganti di katalog baru. */
+const CATEGORY_ALIASES: Record<string, string> = {
+  'Layar LED': 'LED & Screen',
+  Panggung: 'Panggung & Rigging',
+};
+
 /** Satu-satunya sumber state aplikasi. Semua perubahan lewat modul ini. */
 export const state = {
-  equipment: load<Equipment[]>(STORAGE.equipment, D.DEFAULT_EQUIPMENT),
+  equipment: load<Equipment[]>(STORAGE.equipment, D.DEFAULT_EQUIPMENT).map((e) => ({
+    ...e,
+    category: CATEGORY_ALIASES[e.category] || e.category,
+  })),
   portfolio: load<Portfolio[]>(STORAGE.portfolio, D.DEFAULT_PORTFOLIO),
   inquiries: load<Inquiry[]>(STORAGE.inquiries, D.DEFAULT_INQUIRIES).map((q, i) => ({
     ...q,
@@ -32,6 +41,7 @@ export const state = {
   cart: load<CartItem[]>(STORAGE.cart, []),
   portCat: 'Semua',
   eqCat: 'Semua',
+  catalogOpen: false,
   adminTab: 'overview',
   search: '',
   inqFilter: 'Semua',
@@ -58,5 +68,8 @@ export const resetData = () => {
   state.portfolio = structuredClone(D.DEFAULT_PORTFOLIO);
   state.inquiries = structuredClone(D.DEFAULT_INQUIRIES);
   state.cart = [];
+  state.catalogOpen = false;
+  state.eqCat = 'Semua';
+  state.search = '';
   save();
 };

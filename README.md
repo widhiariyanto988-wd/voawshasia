@@ -4,7 +4,7 @@ Landing page sewa alat event dan produksi panggung berbasis **Vite + TypeScript*
 
 ## Fitur
 
-- Katalog alat dengan filter kategori dan pencarian
+- Katalog alat berupa 5 kartu kategori (Sound System, Lighting, LED & Screen, Multimedia, Panggung & Rigging); klik kategori untuk membuka daftar alat + pencarian, lalu sewa langsung
 - Portofolio acara + modal detail alat yang dipakai
 - Paket hemat siap pakai
 - Keranjang sewa dengan jumlah unit & lama hari, input nama, **nomor WhatsApp**, dan tanggal acara, lalu kirim ringkasan ke WhatsApp
