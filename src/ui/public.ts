@@ -70,12 +70,10 @@ export function renderShell() {
   </section>
 
   <section id="hasil-kerja" class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
-      <div><span class="text-amber-400 font-bold text-xs uppercase tracking-widest">Portofolio</span>
-        <h2 class="font-display text-3xl sm:text-4xl font-extrabold mt-1.5">Hasil Kerja Kami</h2>
-        <p class="text-zinc-400 mt-2 max-w-xl">Klik foto acara untuk melihat daftar alat yang dipakai dan pesan paket serupa.</p></div>
-      <div id="port-filters" class="flex flex-wrap gap-2"></div>
-    </div>
+    <div class="text-center max-w-2xl mx-auto mb-8"><span class="text-amber-400 font-bold text-xs uppercase tracking-widest">Portofolio</span>
+      <h2 class="font-display text-3xl sm:text-4xl font-extrabold mt-1.5">Hasil Kerja Kami</h2>
+      <p class="text-zinc-400 mt-2">Klik foto acara untuk melihat daftar alat yang dipakai dan pesan paket serupa.</p></div>
+    <div id="port-filters" class="flex flex-wrap justify-center gap-2 mb-10"></div>
     <div id="port-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </section>
 
@@ -122,9 +120,9 @@ export function renderShell() {
 
   <section id="daftar-alat" class="py-16 md:py-24 bg-zinc-950/60 border-y border-zinc-800/80 w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="mb-8"><span class="text-cyan-400 font-bold text-xs uppercase tracking-widest">Katalog Sewa</span>
+      <div class="text-center max-w-2xl mx-auto mb-8"><span class="text-cyan-400 font-bold text-xs uppercase tracking-widest">Katalog Sewa</span>
         <h2 class="font-display text-3xl sm:text-4xl font-extrabold mt-1.5">Daftar Alat Rental</h2>
-        <p class="text-zinc-400 mt-2 max-w-2xl">Pilih kategori untuk melihat alat, stok, dan harga sewa per hari. Klik tombol sewa untuk langsung memesan.</p></div>
+        <p class="text-zinc-400 mt-2">Pilih kategori untuk melihat alat, stok, dan harga sewa per hari. Klik tombol sewa untuk langsung memesan.</p></div>
       <div id="cat-landing" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5"></div>
       <div id="cat-results" class="hidden space-y-6">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
