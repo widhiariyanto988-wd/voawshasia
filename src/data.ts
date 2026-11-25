@@ -100,7 +100,7 @@ export const DEFAULT_PORTFOLIO: Portfolio[] = [
 ];
 
 export const DEFAULT_INQUIRIES: Inquiry[] = [
-  { id: 'inq-1', clientName: 'Raka Pratama', eventDate: '2026-12-12', itemsSummary: '1x Paket Wedding Megah (1 hari)', totalEstimate: 12500000, createdAt: 'Hari ini, 14:20' },
+  { id: 'inq-1', code: 'ORD-2026-001', clientName: 'Raka Pratama', phone: '6281281234567', eventDate: '2026-12-12', itemsSummary: '1x Paket Wedding Megah (1 hari)', totalEstimate: 12500000, dp: 5000000, status: 'Baru', createdAt: 'Hari ini, 14:20' },
 ];
 
 export const PACKAGES: Pkg[] = [
@@ -111,7 +111,7 @@ export const PACKAGES: Pkg[] = [
 
 export const STEPS: [string, string][] = [
   ['Pilih Alat / Paket', 'Masukkan alat atau paket yang kamu butuhkan ke Keranjang Sewa.'],
-  ['Kirim ke WhatsApp', 'Isi nama dan tanggal acara, lalu kirim daftar pesanan ke WA kami.'],
+  ['Kirim ke WhatsApp', 'Isi nama, nomor WhatsApp, dan tanggal acara, lalu kirim pesanan ke WA kami.'],
   ['Kunci Jadwal (DP)', 'Tim kami mengunci jadwal alat agar tidak dipakai acara lain.'],
   ['Pasang di Lokasi', 'Kru datang lebih awal untuk pasang, cek suara/lampu, dan mengawal acara.'],
 ];

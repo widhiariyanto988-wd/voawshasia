@@ -22,12 +22,20 @@ const load = <T,>(key: string, fallback: T): T => {
 export const state = {
   equipment: load<Equipment[]>(STORAGE.equipment, D.DEFAULT_EQUIPMENT),
   portfolio: load<Portfolio[]>(STORAGE.portfolio, D.DEFAULT_PORTFOLIO),
-  inquiries: load<Inquiry[]>(STORAGE.inquiries, D.DEFAULT_INQUIRIES),
+  inquiries: load<Inquiry[]>(STORAGE.inquiries, D.DEFAULT_INQUIRIES).map((q, i) => ({
+    ...q,
+    code: q.code || `ORD-2026-${String(i + 1).padStart(3, '0')}`,
+    phone: q.phone || '',
+    dp: q.dp || 0,
+    status: q.status || 'Baru',
+  })),
   cart: load<CartItem[]>(STORAGE.cart, []),
   portCat: 'Semua',
   eqCat: 'Semua',
   adminTab: 'overview',
   search: '',
+  inqFilter: 'Semua',
+  inqSearch: '',
 };
 
 /** Simpan seluruh state ke localStorage. Gagal kalau kuota browser penuh. */

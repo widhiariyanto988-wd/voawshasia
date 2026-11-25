@@ -1,5 +1,5 @@
 import { save, state } from '../store';
-import { esc, rp, wa } from '../lib/format';
+import { esc, normalizePhone, phoneLabel, rp, wa } from '../lib/format';
 import { $, toast } from './shared';
 
 /** Perbarui angka pada badge keranjang di header. */
@@ -42,7 +42,7 @@ export function renderDrawer() {
       <p class="text-sm font-bold text-zinc-300">Keranjang Sewa Masih Kosong</p><p class="text-xs text-zinc-500 mt-1">Pilih alat atau paket hemat terlebih dahulu.</p></div>`;
 
   const keep = (id: string) => (document.getElementById(id) as HTMLInputElement | null)?.value ?? '';
-  const [name, date] = [keep('c-name'), keep('c-date')];
+  const [name, date, phone] = [keep('c-name'), keep('c-date'), keep('c-phone')];
   $('#drawer').innerHTML = `<div class="bg-zinc-950 border-l border-zinc-800 w-full max-w-md h-full flex flex-col justify-between shadow-2xl">
     <div class="p-5 border-b border-zinc-800 flex items-center justify-between"><div><h3 class="font-display font-bold text-lg">Keranjang Sewa</h3><p class="text-xs text-zinc-400">Atur jumlah unit dan lama hari sewa</p></div>
       <button data-act="drawer-close" class="w-9 h-9 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button></div>
@@ -51,6 +51,9 @@ export function renderDrawer() {
       <div class="grid grid-cols-2 gap-3">
         <div><label class="block text-[11px] font-semibold text-zinc-400 mb-1">Nama Penyewa</label><input id="c-name" value="${esc(name)}" placeholder="Contoh: Andi" class="w-full px-3 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-xs focus:outline-none focus:border-amber-500"></div>
         <div><label class="block text-[11px] font-semibold text-zinc-400 mb-1">Tanggal Acara</label><input id="c-date" type="date" value="${esc(date)}" class="w-full px-3 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-xs focus:outline-none focus:border-amber-500"></div></div>
+      <div><label class="block text-[11px] font-semibold text-zinc-400 mb-1">Nomor WhatsApp <span class="text-rose-400">*</span></label>
+        <input id="c-phone" type="tel" inputmode="tel" value="${esc(phone)}" placeholder="Contoh: 0812-3456-7890" class="w-full px-3 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-xs focus:outline-none focus:border-amber-500">
+        <p class="text-[10px] text-zinc-500 mt-1">Nomor ini dicantumkan di pesanan dan dipakai tim untuk konfirmasi.</p></div>
       <div class="flex items-center justify-between pt-2 border-t border-zinc-800/80"><span class="text-xs text-zinc-400">Total Biaya Sewa:</span><span class="font-display text-xl font-extrabold text-amber-400">${rp(total)}</span></div>
       <button data-act="order" class="w-full py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-extrabold text-sm flex items-center justify-center gap-2"><i class="fa-brands fa-whatsapp text-lg"></i>Kirim Pesanan ke WhatsApp</button></div></div>`;
 }
@@ -66,6 +69,8 @@ export function order() {
   if (!state.cart.length) return toast('Keranjang masih kosong, pilih alat dulu ya!', true);
   const name = (($('#c-name') as HTMLInputElement).value || '').trim() || 'Penyewa';
   const date = ($('#c-date') as HTMLInputElement).value || 'Belum ditentukan';
+  const phone = normalizePhone(($('#c-phone') as HTMLInputElement).value || '');
+  if (!/^62\d{8,13}$/.test(phone)) return toast('Nomor WhatsApp wajib diisi dengan benar (contoh: 0812-3456-7890).', true);
   let total = 0;
   const lines = state.cart.map((c, i) => {
     const s = c.price * c.qty * c.days;
@@ -74,16 +79,20 @@ export function order() {
   });
   state.inquiries.unshift({
     id: 'inq-' + Date.now(),
+    code: `ORD-${new Date().getFullYear()}-${String(state.inquiries.length + 1).padStart(3, '0')}`,
     clientName: name,
+    phone,
     eventDate: date,
     totalEstimate: total,
+    dp: 0,
+    status: 'Baru',
     createdAt: new Date().toLocaleString('id-ID'),
     itemsSummary: state.cart.map((c) => `${c.qty}x ${c.name} (${c.days} hari)`).join(', '),
   });
   save();
   toast('Pesanan dicatat & membuka WhatsApp...');
   window.open(
-    wa(`Halo *VOAWSHASIA*, saya mau pesan sewa alat event:\n\n*Nama:* ${name}\n*Tanggal Acara:* ${date}\n\n*Daftar Sewa:*\n${lines.join('\n')}\n\n*Total Perkiraan:* ${rp(total)}\n\nApakah alatnya ready di tanggal tersebut?`),
+    wa(`Halo *VOAWSHASIA*, saya mau pesan sewa alat event:\n\n*Nama:* ${name}\n*WhatsApp:* ${phoneLabel(phone)}\n*Tanggal Acara:* ${date}\n\n*Daftar Sewa:*\n${lines.join('\n')}\n\n*Total Perkiraan:* ${rp(total)}\n\nApakah alatnya ready di tanggal tersebut?`),
     '_blank',
   );
 }

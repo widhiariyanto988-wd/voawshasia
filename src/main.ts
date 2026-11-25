@@ -3,7 +3,7 @@ import * as D from './data';
 import type { Equipment, Portfolio, Status } from './types';
 import { resetData, save, state } from './store';
 import { compressImage } from './lib/image';
-import { eqForm, loginModal, ptForm, renderAdmin, val } from './ui/admin';
+import { eqForm, inqForm, invoiceModal, loginModal, ptForm, renderAdmin, val } from './ui/admin';
 import { addCart, openDrawer, order, renderDrawer, updateBadge } from './ui/cart';
 import { igDetail, portDetail, renderCatalog, renderPortfolio, renderPublic, renderShell } from './ui/public';
 import { $, closeDrawer, closeModal, toast } from './ui/shared';
@@ -116,6 +116,34 @@ document.addEventListener('click', (ev) => {
       state.adminTab = v;
       renderAdmin();
       break;
+    case 'inq-filter':
+      state.inqFilter = v;
+      renderAdmin();
+      break;
+    case 'inq-edit':
+      inqForm(id);
+      break;
+    case 'inq-invoice':
+      invoiceModal(id);
+      break;
+    case 'inq-print':
+      window.print();
+      break;
+    case 'inq-wa': {
+      const q = state.inquiries.find((x) => x.id === id);
+      if (!q?.phone) return toast('Nomor WhatsApp klien belum diisi.', true);
+      const text = `Halo ${q.clientName}, ini konfirmasi pesanan sewa alat VOAWSHASIA.\n\nNo. Pesanan: #${q.code}\nTanggal Acara: ${q.eventDate}\nEstimasi: ${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(q.totalEstimate)}\n\nMohon ditanggapi ya, terima kasih.`;
+      window.open(`https://wa.me/${q.phone}?text=${encodeURIComponent(text)}`, '_blank');
+      break;
+    }
+    case 'inq-del':
+      if (confirm('Hapus pesanan ini dari daftar?')) {
+        state.inquiries = state.inquiries.filter((x) => x.id !== id);
+        save();
+        renderAdmin();
+        toast('Pesanan dihapus.', true);
+      }
+      break;
     case 'eq-form':
       eqForm(id || undefined);
       break;
@@ -182,6 +210,22 @@ document.addEventListener('submit', (ev) => {
   }
 
   const id = form.dataset.id || '';
+  if (kind === 'inq') {
+    const q = state.inquiries.find((x) => x.id === id);
+    if (q) {
+      q.clientName = val('f-client');
+      q.phone = val('f-phone').replace(/\D/g, '');
+      q.eventDate = val('f-date');
+      q.dp = Number(val('f-dp')) || 0;
+      q.status = val('f-status') as typeof q.status;
+      save();
+    }
+    closeModal();
+    renderAdmin();
+    toast('Pesanan berhasil diperbarui!');
+    return;
+  }
+
   if (kind === 'eq') {
     const category = val('f-cat');
     const equipment: Equipment = {
@@ -219,14 +263,32 @@ document.addEventListener('submit', (ev) => {
 });
 
 document.addEventListener('input', (ev) => {
-  if ((ev.target as HTMLElement).id === 'search') {
+  const id = (ev.target as HTMLElement).id;
+  if (id === 'search') {
     state.search = (ev.target as HTMLInputElement).value;
     renderCatalog();
+  }
+  if (id === 'inq-search') {
+    state.inqSearch = (ev.target as HTMLInputElement).value;
+    renderAdmin();
+    const input = document.getElementById('inq-search') as HTMLInputElement | null;
+    input?.focus();
+    input?.setSelectionRange(input.value.length, input.value.length);
   }
 });
 
 document.addEventListener('change', async (ev) => {
   const input = ev.target as HTMLInputElement;
+  if (input?.dataset?.act === 'inq-status') {
+    const q = state.inquiries.find((x) => x.id === input.dataset.id);
+    if (q) {
+      q.status = input.value as typeof q.status;
+      save();
+      renderAdmin();
+      toast(`Status pesanan diubah menjadi ${q.status}.`);
+    }
+    return;
+  }
   if (input?.id !== 'f-file' || !input.files?.length) return;
   try {
     const dataUrl = await compressImage(input.files[0]);

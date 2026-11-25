@@ -1,7 +1,7 @@
-import type { Equipment, Portfolio } from '../types';
+import type { Equipment, Inquiry, InquiryStatus, Portfolio } from '../types';
 import * as D from '../data';
 import { save, state } from '../store';
-import { esc, img, rp } from '../lib/format';
+import { esc, img, phoneLabel, rp } from '../lib/format';
 import { PHOTO_INPUT_MAX_MB } from '../lib/image';
 import { $, openModal, statusCls } from './shared';
 
@@ -13,6 +13,23 @@ export const loginModal = () => {
     <button class="w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-extrabold text-sm">Masuk Dashboard</button></form>`);
   setTimeout(() => $('#pass')?.focus(), 50);
 };
+
+const INQ_STATUSES: InquiryStatus[] = ['Baru', 'Terjadwal', 'Selesai', 'Dibatalkan'];
+
+const inqBadge = (status: InquiryStatus) => {
+  const cls =
+    status === 'Baru'
+      ? 'bg-amber-500/15 text-amber-400 border-amber-500/30'
+      : status === 'Terjadwal'
+        ? 'bg-cyan-500/15 text-cyan-400 border-cyan-500/30'
+        : status === 'Selesai'
+          ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+          : 'bg-rose-500/15 text-rose-400 border-rose-500/30';
+  return `<span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold border ${cls}">${esc(status)}</span>`;
+};
+
+/** Cari satu pesanan berdasarkan id. */
+const findInquiry = (id: string) => state.inquiries.find((q) => q.id === id);
 
 /** Render seluruh dashboard admin sesuai tab aktif. */
 export function renderAdmin() {
@@ -52,16 +69,55 @@ export function renderAdmin() {
       <div class="px-5 py-3 border-t border-zinc-800 flex justify-end gap-2 bg-zinc-900/30"><button data-act="pt-form" data-id="${p.id}" class="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-cyan-500 hover:text-zinc-950 text-xs font-bold">Edit</button>
         <button data-act="pt-del" data-id="${p.id}" class="px-3 py-1.5 rounded-lg bg-rose-500/15 hover:bg-rose-500 text-rose-400 hover:text-white text-xs font-bold">Hapus</button></div></div>`).join('')}</div>`;
 
-  if (state.adminTab === 'inquiries')
-    body = state.inquiries.length
-      ? state.inquiries
-          .map((q) => `<div class="p-5 rounded-2xl bg-darkcard border border-zinc-800 flex flex-col sm:flex-row justify-between gap-4">
-      <div class="space-y-1"><div><span class="font-display font-bold">${esc(q.clientName)}</span> <span class="text-xs text-zinc-500">• ${esc(q.createdAt)}</span></div>
-        <div class="text-xs text-zinc-400">Tanggal Acara: <strong class="text-zinc-200">${esc(q.eventDate)}</strong></div>
-        <div class="text-xs text-zinc-300 bg-zinc-900 p-2.5 rounded-lg border border-zinc-800 mt-1">${esc(q.itemsSummary)}</div></div>
-      <div class="sm:text-right shrink-0"><span class="text-[11px] text-zinc-400 block">Perkiraan Total</span><span class="font-display font-extrabold text-lg text-amber-400">${rp(q.totalEstimate)}</span></div></div>`)
+  if (state.adminTab === 'inquiries') {
+    const query = state.inqSearch.trim().toLowerCase();
+    const filtered = state.inquiries.filter(
+      (q) =>
+        (state.inqFilter === 'Semua' || q.status === state.inqFilter) &&
+        (!query ||
+          q.clientName.toLowerCase().includes(query) ||
+          q.itemsSummary.toLowerCase().includes(query) ||
+          q.code.toLowerCase().includes(query) ||
+          q.phone.includes(query)),
+    );
+    const totalEstimate = filtered.reduce((s, q) => s + q.totalEstimate, 0);
+    const totalDp = filtered.reduce((s, q) => s + (q.dp || 0), 0);
+    body = `<div class="grid sm:grid-cols-3 gap-4">
+      ${stat('TOTAL PESANAN (FILTER AKTIF)', `${filtered.length} Pesanan`, `dari ${state.inquiries.length} pesanan masuk`, 'text-amber-400')}
+      ${stat('TOTAL ESTIMASI SEWA', rp(totalEstimate), 'Nilai pesanan sesuai filter', 'text-white')}
+      ${stat('TOTAL DP MASUK', rp(totalDp), 'DP yang sudah tercatat', 'text-emerald-400')}</div>
+    <div class="rounded-2xl bg-darkcard border border-zinc-800 p-4 space-y-4">
+      <div class="flex flex-wrap items-center gap-2">${['Semua', ...INQ_STATUSES]
+        .map(
+          (s) => `<button data-act="inq-filter" data-v="${s}" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${s === state.inqFilter ? 'bg-amber-500 text-zinc-950' : 'bg-zinc-900 text-zinc-400 hover:text-white hover:bg-zinc-800 border border-zinc-800'}">${s}</button>`,
+        )
+        .join('')}</div>
+      <div class="relative"><i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500 text-xs"></i>
+        <input id="inq-search" value="${esc(state.inqSearch)}" placeholder="Cari klien atau paket..." class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-sm focus:outline-none focus:border-amber-500"></div></div>
+    <div class="space-y-4">${filtered.length
+      ? filtered
+          .map((q) => `<div class="rounded-2xl bg-darkcard border border-zinc-800 p-5 hover:border-amber-500/40 transition">
+        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+          <div class="flex items-start gap-3"><div class="w-10 h-10 shrink-0 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center font-extrabold">${esc(q.clientName.charAt(0).toUpperCase() || '?')}</div>
+            <div><div class="flex flex-wrap items-center gap-2"><h3 class="font-display font-bold">${esc(q.clientName)}</h3>${inqBadge(q.status)}</div>
+              <div class="text-[11px] text-zinc-500 mt-0.5">${esc(q.createdAt)} · <span class="text-zinc-400">#${esc(q.code)}</span></div></div></div>
+          <div class="sm:text-right shrink-0"><div class="text-[11px] text-zinc-400">Perkiraan Total</div><div class="font-display font-extrabold text-xl text-amber-400">${rp(q.totalEstimate)}</div></div></div>
+        <div class="grid sm:grid-cols-2 gap-2 mt-4 text-xs">
+          <div class="text-zinc-400"><i class="fa-brands fa-whatsapp text-emerald-400 mr-1.5"></i>${q.phone ? `<a href="https://wa.me/${esc(q.phone)}" target="_blank" rel="noopener noreferrer" class="text-zinc-200 hover:text-emerald-400">${esc(phoneLabel(q.phone))}</a>` : '<span class="text-zinc-500">Nomor WhatsApp belum diisi</span>'}</div>
+          <div class="text-zinc-400"><i class="fa-regular fa-calendar text-cyan-400 mr-1.5"></i>Tanggal Acara: <strong class="text-zinc-200">${esc(q.eventDate)}</strong></div></div>
+        <div class="mt-3 text-xs text-zinc-300 bg-zinc-900 p-2.5 rounded-lg border border-zinc-800">${esc(q.itemsSummary)}</div>
+        <div class="flex flex-wrap gap-x-6 gap-y-1 mt-4 text-xs"><div>DP: <strong class="text-emerald-400">${rp(q.dp || 0)}</strong></div><div>Sisa: <strong class="text-zinc-200">${rp(Math.max(q.totalEstimate - (q.dp || 0), 0))}</strong></div></div>
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-4 mt-4 border-t border-zinc-800">
+          <label class="flex items-center gap-2 text-xs text-zinc-400">Status
+            <select data-act="inq-status" data-id="${q.id}" class="px-2.5 py-1.5 rounded-lg bg-zinc-900 border border-zinc-700 text-xs text-zinc-200 focus:outline-none focus:border-amber-500">${INQ_STATUSES.map((s) => `<option ${s === q.status ? 'selected' : ''}>${s}</option>`).join('')}</select></label>
+          <div class="flex flex-wrap gap-2">
+            <button data-act="inq-wa" data-id="${q.id}" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 hover:bg-emerald-500 text-emerald-400 hover:text-zinc-950 border border-emerald-500/30 text-xs font-bold"><i class="fa-brands fa-whatsapp mr-1"></i>WhatsApp</button>
+            <button data-act="inq-invoice" data-id="${q.id}" class="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-cyan-500 hover:text-zinc-950 text-xs font-bold"><i class="fa-solid fa-file-invoice mr-1"></i>Invoice</button>
+            <button data-act="inq-edit" data-id="${q.id}" class="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 text-xs font-bold"><i class="fa-solid fa-pen mr-1"></i>Edit</button>
+            <button data-act="inq-del" data-id="${q.id}" class="px-3 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500 text-rose-400 hover:text-white border border-rose-500/30 text-xs font-bold"><i class="fa-solid fa-trash"></i></button></div></div></div>`)
           .join('')
-      : '<div class="p-8 text-center text-zinc-500 bg-darkcard rounded-2xl border border-zinc-800">Belum ada pesanan masuk.</div>';
+      : '<div class="p-8 text-center text-zinc-500 bg-darkcard rounded-2xl border border-zinc-800">Belum ada pesanan yang cocok dengan filter ini.</div>'}</div>`;
+  }
 
   $('#admin').innerHTML = `<aside class="w-full lg:w-64 bg-darkcard border-b lg:border-b-0 lg:border-r border-zinc-800 flex flex-col shrink-0">
     <div class="p-5 border-b border-zinc-800 flex items-center gap-2.5"><div class="w-8 h-8 shrink-0 rounded-full bg-gradient-to-tr from-fuchsia-600 via-pink-500 to-orange-400 p-[2px]"><img src="${import.meta.env.BASE_URL}logo.jpg" alt="Logo VOAWSHASIA" class="w-full h-full rounded-full object-cover bg-zinc-950 ring-2 ring-zinc-950"></div>
@@ -71,7 +127,7 @@ export function renderAdmin() {
       <button data-act="to-public" class="flex-1 py-2.5 px-4 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-xs font-bold"><i class="fa-solid fa-eye text-amber-400 mr-2"></i>Kembali ke Web Utama</button>
       <button data-act="to-public" class="py-2.5 px-4 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-xs font-bold text-rose-400"><i class="fa-solid fa-right-from-bracket mr-2"></i>Keluar</button></div></aside>
   <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto space-y-6">
-    <div class="flex items-center justify-between gap-4 pb-6 border-b border-zinc-800"><div><h1 class="font-display text-2xl font-extrabold">${tabs.find((t) => t[0] === state.adminTab)![2]}</h1><p class="text-xs sm:text-sm text-zinc-400 mt-0.5">Setiap perubahan langsung tampil di halaman depan.</p></div>
+    <div class="flex items-center justify-between gap-4 pb-6 border-b border-zinc-800"><div><h1 class="font-display text-2xl font-extrabold">${tabs.find((t) => t[0] === state.adminTab)![2]}</h1><p class="text-xs sm:text-sm text-zinc-400 mt-0.5">${state.adminTab === 'inquiries' ? 'Pantau dan kelola pesanan masuk dari website.' : 'Setiap perubahan langsung tampil di halaman depan.'}</p></div>
       <button data-act="reset" class="px-3.5 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-xs text-zinc-400 hover:text-white"><i class="fa-solid fa-rotate-left mr-1"></i>Reset Data Awal</button></div>
     ${body}</main>`;
 }
@@ -153,6 +209,39 @@ export function ptForm(id?: string) {
         photoField(p.image, p.category),
     ),
   );
+}
+
+/** Form edit data pesanan masuk. */
+export function inqForm(id: string) {
+  const q: Inquiry | undefined = findInquiry(id);
+  if (!q) return;
+  openModal(
+    formShell(
+      'Edit Pesanan Masuk',
+      'inq',
+      q.id,
+      `<div class="grid sm:grid-cols-2 gap-4">${field('f-client', 'Nama Klien *', q.clientName, 'text', 'Nama klien', 'required')}${field('f-phone', 'Nomor WhatsApp', q.phone, 'tel', '62812...', 'inputmode="tel"')}</div>` +
+        `<div class="grid sm:grid-cols-2 gap-4">${field('f-date', 'Tanggal Acara', q.eventDate, 'date', '', '')}${field('f-dp', 'DP Diterima (Rp)', q.dp || 0, 'number', '0', 'min="0" step="500000"')}</div>` +
+        select('f-status', 'Status Pesanan', INQ_STATUSES, q.status),
+    ),
+  );
+}
+
+/** Invoice pesanan yang bisa dicetak dari panel admin. */
+export function invoiceModal(id: string) {
+  const q: Inquiry | undefined = findInquiry(id);
+  if (!q) return;
+  openModal(`<div id="invoice-print" class="bg-white text-zinc-900 rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl space-y-5">
+    <div class="flex items-start justify-between gap-4 border-b border-zinc-200 pb-5"><div><div class="font-display text-xl font-extrabold">VOAWSH<span class="text-amber-600">ASIA</span></div><div class="text-[11px] text-zinc-500">Production &amp; Rental · Sewa Alat Event</div></div>
+      <div class="text-right"><div class="font-extrabold tracking-wider">INVOICE</div><div class="text-xs text-zinc-500">#${esc(q.code)}</div></div></div>
+    <div class="grid grid-cols-2 gap-4 text-xs"><div><div class="text-zinc-500 mb-1">DITAGIHKAN KEPADA</div><div class="font-bold">${esc(q.clientName)}</div><div class="text-zinc-600">${esc(phoneLabel(q.phone))}</div></div>
+      <div class="text-right"><div class="text-zinc-500 mb-1">TANGGAL ACARA</div><div class="font-bold">${esc(q.eventDate)}</div><div class="text-zinc-600">Status: ${esc(q.status)}</div></div></div>
+    <div><div class="text-[11px] font-bold text-zinc-500 mb-2">RINCIAN PESANAN</div><div class="rounded-xl bg-zinc-100 p-3 text-xs">${esc(q.itemsSummary)}</div></div>
+    <div class="space-y-2 text-sm border-t border-zinc-200 pt-4"><div class="flex justify-between"><span class="text-zinc-500">Estimasi Sewa</span><span class="font-bold">${rp(q.totalEstimate)}</span></div>
+      <div class="flex justify-between"><span class="text-zinc-500">DP Diterima</span><span class="font-bold text-emerald-600">${rp(q.dp || 0)}</span></div>
+      <div class="flex justify-between text-lg font-extrabold border-t border-zinc-200 pt-2"><span>Sisa Pembayaran</span><span class="text-amber-600">${rp(Math.max(q.totalEstimate - (q.dp || 0), 0))}</span></div></div>
+    <div class="flex gap-2 pt-2 no-print"><button data-act="inq-print" class="flex-1 py-2.5 rounded-xl bg-amber-500 text-zinc-950 font-extrabold text-sm"><i class="fa-solid fa-print mr-2"></i>Cetak Invoice</button>
+      <button data-act="close" class="px-5 py-2.5 rounded-xl bg-zinc-200 text-zinc-800 font-bold text-sm">Tutup</button></div></div>`);
 }
 
 /** Ambil nilai input form berdasarkan id. */
