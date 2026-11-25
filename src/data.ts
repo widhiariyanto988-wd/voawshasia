@@ -31,6 +31,7 @@ export const IG_POSTS: IGPost[] = [
     url: 'https://www.instagram.com/voawsh_asia/reel/DWgZPyZk7uS/',
     date: '30 Mar 2026',
     type: 'Reel',
+    video: 'instagram/reel2.mp4',
     likes: '0',
     comments: '0',
     caption: 'POV kerja di balik layar reuni SMA 1 Surakarta: kurasi tiap momen jadi cinematic dengan setup multicam supaya nggak ada momen kangen-kangenan yang kelewat.',

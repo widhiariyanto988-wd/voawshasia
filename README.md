@@ -130,4 +130,4 @@ export const SOCIALS = [
 ];
 ```
 
-Galeri Instagram memakai salinan thumbnail 6 postingan terbaru di `public/instagram/` beserta caption aslinya di `IG_POSTS` (`src/data.ts`). Video Reel yang bisa diunduh disimpan sebagai `reel1.mp4` / `reel3.mp4` dan diputar inline lewat `<video controls playsinline>`. Reel dengan audio terproteksi Instagram tidak bisa diunduh publik; kartunya memakai tombol **Tonton di Instagram**. Karena Instagram tidak menyediakan feed publik gratis tanpa token, galeri ini **tidak update otomatis** — sesuaikan lagi saat ada postingan baru.
+Galeri Instagram memakai salinan thumbnail 6 postingan terbaru di `public/instagram/` beserta caption aslinya di `IG_POSTS` (`src/data.ts`). Ketiga video Reel disimpan sebagai `reel1.mp4`, `reel2.mp4`, dan `reel3.mp4`, lalu diputar inline lewat `<video controls playsinline>`. Karena Instagram tidak menyediakan feed publik gratis tanpa token, galeri ini **tidak update otomatis** — sesuaikan lagi saat ada postingan baru.
